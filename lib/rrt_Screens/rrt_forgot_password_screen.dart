@@ -44,7 +44,7 @@ class ForgotPassword extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 39.w),
                       child: textformfield(
-                          passwordController, 'Enter username', 'Username',false,TextInputType.name),
+                          passwordController, 'Enter username', 'Username',false,TextInputType.name,"Please fill this field",),
                     ),
                     SizedBox(
                       height: 40.h,
@@ -52,7 +52,7 @@ class ForgotPassword extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 39.w),
                       child: textformfield(confirmpasswordController,
-                          'Enter password', 'Confirm Password',false,TextInputType.name),
+                          'Enter password', 'Confirm Password',false,TextInputType.name,"Please fill this field",),
                     ),
                     SizedBox(
                       height: 50.h,

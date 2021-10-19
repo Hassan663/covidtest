@@ -59,7 +59,7 @@ class UserBillingInformation extends StatelessWidget {
                           'Enter card number',
                           'Card Number',
                           false,
-                          TextInputType.number),
+                          TextInputType.number,"Please fill this field",),
                     ),
                     SizedBox(
                       height: 40.h,
@@ -71,7 +71,7 @@ class UserBillingInformation extends StatelessWidget {
                           'Enter card holder name',
                           'Card Holder Name',
                           false,
-                          TextInputType.name),
+                          TextInputType.name,"Please fill this field",),
                     ),
                     SizedBox(
                       height: 40.h,
@@ -79,7 +79,7 @@ class UserBillingInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 39.w),
                       child: textformfield(cvvController, 'Enter Cvv', 'Cvv',
-                          false, TextInputType.number),
+                          false, TextInputType.number,"Please fill this field",),
                     ),
                     SizedBox(
                       height: 40.h,

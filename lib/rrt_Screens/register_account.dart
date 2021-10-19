@@ -56,8 +56,10 @@ class RegisterAccount extends StatelessWidget {
                             fNameController,
                             'Enter first name',
                             'First Name',
+                            
                             false,
-                            TextInputType.name),
+                            TextInputType.name,
+                            "Please fill this field",),
                       ),
                       SizedBox(
                         height: 30.h,
@@ -65,7 +67,7 @@ class RegisterAccount extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 39.w),
                         child: textformfield(lNameController, 'Enter last name',
-                            'Last Name', false, TextInputType.name),
+                            'Last Name', false, TextInputType.name,"Please fill this field",),
                       ),
                       SizedBox(
                         height: 30.h,
@@ -77,7 +79,7 @@ class RegisterAccount extends StatelessWidget {
                             'Enter your email',
                             'Email',
                             false,
-                            TextInputType.emailAddress),
+                            TextInputType.emailAddress,"Please fill this field",),
                       ),
                       SizedBox(
                         height: 30.h,
@@ -89,7 +91,7 @@ class RegisterAccount extends StatelessWidget {
                             'Enter Password',
                             'Password',
                             true,
-                            TextInputType.name),
+                            TextInputType.name,"Please fill this field",),
                       ),
                       SizedBox(
                         height: 30.h,
@@ -101,7 +103,7 @@ class RegisterAccount extends StatelessWidget {
                             'Confirm Password',
                             'Confirm Password',
                             true,
-                            TextInputType.name),
+                            TextInputType.name,"Please fill this field",),
                       ),
                       SizedBox(
                         height: 30.h,
