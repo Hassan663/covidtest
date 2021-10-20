@@ -7,7 +7,7 @@ import 'package:rrt_client_web_app/rrt_widgets/header.dart';
 import 'package:rrt_client_web_app/rrt_widgets/rrt_colors.dart';
 import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+
 
 class HomeDashboard extends StatelessWidget {
   @override
@@ -33,7 +33,7 @@ class HomeDashboard extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(right: 20.w),
-                  child: AutoSizeText(
+                  child: Text(
                     'All Appointment',
                     maxLines: 1,
                     style: TextStyle(
@@ -92,7 +92,7 @@ class HomeDashboard extends StatelessWidget {
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.only(top: 15.h),
-                                        child: AutoSizeText(
+                                        child: Text(
                                           "Appointment $index",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,

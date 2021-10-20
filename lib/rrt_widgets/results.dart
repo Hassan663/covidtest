@@ -7,7 +7,6 @@ import 'package:rrt_client_web_app/rrt_widgets/header.dart';
 import 'package:rrt_client_web_app/rrt_widgets/rrt_colors.dart';
 import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class Results extends StatelessWidget {
   @override
@@ -33,7 +32,7 @@ class Results extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(right: 20.w),
-                  child: AutoSizeText(
+                  child: Text(
                     'Results',
                     maxLines: 1,
                     style: TextStyle(
@@ -65,7 +64,7 @@ class Results extends StatelessWidget {
                         crossAxisCount: 4,
                         childAspectRatio: 4.w / 3.h,
                         crossAxisSpacing: 0.w,
-                        mainAxisSpacing: 10.h),
+                        mainAxisSpacing: 0.h),
                     itemCount: 12,
                     itemBuilder: (BuildContext ctx, index) {
                       return Padding(
@@ -78,7 +77,7 @@ class Results extends StatelessWidget {
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.3),
-                                          spreadRadius: 2,
+                                          spreadRadius: 5,
                                           blurRadius: 5,
                                           offset: Offset(0,
                                               3), // changes position of shadow
@@ -94,7 +93,7 @@ class Results extends StatelessWidget {
                                         Padding(
                                           padding: EdgeInsets.only(
                                               top: 25.h, left: 10.w),
-                                          child: AutoSizeText(
+                                          child: Text(
                                             "Appointment $index",
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,

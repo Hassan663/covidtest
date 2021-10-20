@@ -25,6 +25,7 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> {
       "11:00 to 11:15 AM"
     ];
 
+    DateTime? selectedDay;
     return SafeArea(
         child: SingleChildScrollView(
       child: Container(
@@ -88,6 +89,16 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> {
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: TableCalendar(
+                          selectedDayPredicate: (day) =>
+                              isSameDay(day, selectedDay),
+
+                          onDaySelected: (selectedDay, focusedDay) {
+                            setState(() {
+                              // selectedDay = focusedDay;
+                              focusedDay =
+                                  selectedDay; // update `_focusedDay` here as well
+                            });
+                          },
                           calendarStyle: CalendarStyle(
                               selectedDecoration: BoxDecoration(
                                 color: Colors.red,
@@ -117,9 +128,9 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> {
                               )),
                           firstDay: DateTime.utc(2010, 10, 16),
                           lastDay: DateTime.utc(2030, 3, 14),
-                          focusedDay: DateTime.now(),
+                          //focusedDay: DateTime.now(),
                           availableGestures: AvailableGestures.horizontalSwipe,
-                          headerVisible: true,
+                          headerVisible: true, focusedDay: DateTime.now(),
                         ),
                       ),
                     ),
@@ -188,7 +199,7 @@ class choiceChipWidget extends StatefulWidget {
 
 class _choiceChipWidgetState extends State<choiceChipWidget> {
   String selectedChoice = "";
-
+  
   _buildChoiceList() {
     List<Widget> choices = [];
     widget.reportList.forEach((item) {
@@ -211,12 +222,12 @@ class _choiceChipWidgetState extends State<choiceChipWidget> {
             setState(() {
               selected == true;
               selectedChoice = item;
-              if (selected) {
-                TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0.sp,
-                    fontWeight: FontWeight.bold);
-              }
+              // if (selected) {
+              //   TextStyle(
+              //       color: Colors.white,
+              //       fontSize: 16.0.sp,
+              //       fontWeight: FontWeight.bold);
+              // }
             });
           },
         ),
@@ -232,3 +243,48 @@ class _choiceChipWidgetState extends State<choiceChipWidget> {
     );
   }
 }
+// class choiceChipWidget extends StatefulWidget {
+//   final List<String> reportList;
+
+//   choiceChipWidget(this.reportList);
+
+//   @override
+//   _choiceChipWidgetState createState() => new _choiceChipWidgetState();
+// }
+
+// class _choiceChipWidgetState extends State<choiceChipWidget> {
+//   String selectedChoice = "";
+
+//   _buildChoiceList() {
+//     List<Widget> choices = [];
+//     widget.reportList.forEach((item) {
+//       choices.add(Container(
+//         padding: const EdgeInsets.all(2.0),
+//         child: ChoiceChip(
+//           label: Text(item),
+//           labelStyle: TextStyle(
+//               color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(30.0),
+//           ),
+//           backgroundColor: Color(0xffededed),
+//           selectedColor: Color(0xffffc107),
+//           selected: selectedChoice == item,
+//           onSelected: (selected) {
+//             setState(() {
+//               selectedChoice = item;
+//             });
+//           },
+//         ),
+//       ));
+//     });
+//     return choices;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Wrap(
+//       children: _buildChoiceList(),
+//     );
+//   }
+// }

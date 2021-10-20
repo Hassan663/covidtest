@@ -37,7 +37,7 @@ dependencies:
   resize: ^1.0.0
   flutter_screenutil: ^5.0.0+2
   google_fonts: ^2.1.0
-  auto_size_text: 
+  
   table_calendar: ^3.0.2
   shared_preferences: 
   get: ^4.3.8
@@ -45,6 +45,7 @@ dependencies:
   rflutter_alert: ^2.0.4
   flutter_timer_countdown: ^1.0.2
   form_field_validator: ^1.1.0
+  flutter_clean_calendar: ^1.1.0
 
 dev_dependencies:
   flutter_test:

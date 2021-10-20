@@ -101,9 +101,10 @@ class _LoginState extends State<Login> {
                           GestureDetector(
                             onTap: () {
                               validate;
-                              //   if (_formKey.currentState!.validate()) {
-                              //   } else
-                              //     Get.to(RegisterAccount());
+                                if (formkey.currentState!.validate()) {
+                                  Get.to(RegisterAccount());
+                                } 
+                                  
                             },
                             child: Container(
                               padding:
