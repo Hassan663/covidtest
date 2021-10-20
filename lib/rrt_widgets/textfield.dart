@@ -6,14 +6,18 @@ import 'package:rrt_client_web_app/rrt_widgets/rrt_colors.dart';
 Widget textformfield(
   TextEditingController? _controller,
   String hintText,
+  //final VoidCallback,
   String labelText,
   bool obsecure,
   TextInputType type,
-  String? emptyValidationMessage,
+  //String? emptyValidationMessage,
+  final validator
+
 ) {
   return TextFormField(
       autovalidate: true,
-      //validator:emptyValidationMessage,
+      validator: validator,
+      //emptyValidationMessage,
       // validator: (value) {
       //   Pattern pattern =
       //       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';

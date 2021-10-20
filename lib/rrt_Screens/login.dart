@@ -29,6 +29,24 @@ class _LoginState extends State<Login> {
 
   TextEditingController? passwordController = TextEditingController();
 
+  late String _passwordError;
+  bool validateAndSave() {
+    final form = formkey.currentState;
+    form!.save();
+    if (form.validate()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  _validateAndSubmitSignIn(context) async {
+    if (validateAndSave()) {
+    } else {
+      print("Please fill all filds".toUpperCase());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -38,7 +56,7 @@ class _LoginState extends State<Login> {
         backgroundColor: Color(0xffE5E5E5),
         body: Center(
           child: Container(
-            height: height * 0.7,
+            height: height * 0.75,
             width: width * 0.4,
             child: SingleChildScrollView(
               child: Card(
@@ -68,12 +86,20 @@ class _LoginState extends State<Login> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 39),
                         child: textformfield(
-                            usernameController,
-                            'Enter username',
-                            'Username',
-                            false,
-                            TextInputType.name,
-                            "Please fill this field"),
+                          usernameController,
+                          'Enter username',
+                          'Username',
+                          false,
+                          TextInputType.name,
+                          (value) {
+                            Pattern pattern =
+                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                            RegExp regex = new RegExp(pattern as String);
+                            return (!regex.hasMatch(value!))
+                                ? "Please Enter Valid Email"
+                                : null;
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 30,
@@ -81,12 +107,17 @@ class _LoginState extends State<Login> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 39),
                         child: textformfield(
-                            passwordController,
-                            'Enter password',
-                            'Password',
-                            true,
-                            TextInputType.name,
-                            "Please fill this field"),
+                          passwordController,
+                          'Enter password',
+                          'Password',
+                          true,
+                          TextInputType.name,
+                          (value) {
+                            return (value!.isEmpty)
+                                ? "Password can't be Empity"
+                                : null;
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 10,
@@ -100,11 +131,7 @@ class _LoginState extends State<Login> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              validate;
-                                if (formkey.currentState!.validate()) {
-                                  Get.to(RegisterAccount());
-                                } 
-                                  
+                              Get.to(RegisterAccount());
                             },
                             child: Container(
                               padding:
@@ -153,8 +180,13 @@ class _LoginState extends State<Login> {
                       ),
                       InkWell(
                         onTap: () {
-                          validate();
-                          Get.to(HomePage());
+                          setState(() {
+                            if (usernameController!.text.length < 1 ||
+                                passwordController!.text.length < 1) {
+                              _passwordError = "Enter atleast";
+                            } else
+                              Get.to(HomePage());
+                          });
                         },
                         child: Container(
                           alignment: Alignment.center,

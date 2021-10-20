@@ -17,12 +17,12 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     List<String> chipList = [
-      "11:00 to 11:15 AM",
-      "11:00 to 11:15 AM",
-      "11:00 to 11:15 AM",
-      "11:00 to 11:15 AM",
-      "11:00 to 11:15 AM",
-      "11:00 to 11:15 AM"
+      "11:00 to 11:16 AM",
+      "11:00 to 11:7 AM",
+      "11:00 to 11:1 AM",
+      "11:00 to 11:5 AM",
+      "11:00 to 11:25 AM",
+      "11:00 to 11:35 AM"
     ];
 
     DateTime? selectedDay;
@@ -89,14 +89,14 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> {
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: TableCalendar(
-                          selectedDayPredicate: (day) =>
-                              isSameDay(day, selectedDay),
-
+                          selectedDayPredicate: (day) {
+                            return isSameDay(selectedDay, day);
+                          },
                           onDaySelected: (selectedDay, focusedDay) {
                             setState(() {
-                              // selectedDay = focusedDay;
+                              selectedDay = selectedDay;
                               focusedDay =
-                                  selectedDay; // update `_focusedDay` here as well
+                                  focusedDay; // update `_focusedDay` here as well
                             });
                           },
                           calendarStyle: CalendarStyle(
@@ -128,33 +128,33 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> {
                               )),
                           firstDay: DateTime.utc(2010, 10, 16),
                           lastDay: DateTime.utc(2030, 3, 14),
-                          //focusedDay: DateTime.now(),
                           availableGestures: AvailableGestures.horizontalSwipe,
-                          headerVisible: true, focusedDay: DateTime.now(),
+                          headerVisible: true,
+                          focusedDay: DateTime.now(),
                         ),
                       ),
                     ),
                     //second row choice chip
-                    SingleChildScrollView(
-                      child: Container(
-                        decoration: new BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.3),
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                offset:
-                                    Offset(0, 3), // changes position of shadow
-                              ),
-                            ],
-                            color: Colors.white,
-                            borderRadius: new BorderRadius.all(
-                              Radius.circular(5),
-                            )),
-                        height: MediaQuery.of(context).size.height * 0.57,
-                        width: width * 0.36,
-                        child: Padding(
-                          padding: EdgeInsets.all(30.0.sp),
+                    Container(
+                      decoration: new BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                          color: Colors.white,
+                          borderRadius: new BorderRadius.all(
+                            Radius.circular(5),
+                          )),
+                      height: MediaQuery.of(context).size.height * 0.57,
+                      width: width * 0.36,
+                      child: Padding(
+                        padding: EdgeInsets.all(30.0.sp),
+                        child: SingleChildScrollView(
                           child: Column(
                             children: [
                               Text(
@@ -163,17 +163,14 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> {
                                     color: Colors.black,
                                     fontWeight: FontWeight.w700),
                               ),
-                              Padding(
-                                padding: EdgeInsets.all(10.0.sp),
-                                child: Container(
-                                    child: Wrap(
-                                  spacing: 5.0.sp,
-                                  runSpacing: 5.0.sp,
-                                  children: <Widget>[
-                                    choiceChipWidget(chipList),
-                                  ],
-                                )),
-                              ),
+                              Container(
+                                  child: Wrap(
+                                //spacing: 5.0.sp,
+                                //runSpacing: 15.0.sp,
+                                children: <Widget>[
+                                  choiceChipWidget(chipList),
+                                ],
+                              )),
                             ],
                           ),
                         ),
@@ -199,17 +196,18 @@ class choiceChipWidget extends StatefulWidget {
 
 class _choiceChipWidgetState extends State<choiceChipWidget> {
   String selectedChoice = "";
-  
+
   _buildChoiceList() {
     List<Widget> choices = [];
     widget.reportList.forEach((item) {
       choices.add(Container(
-        padding: EdgeInsets.all(30.0.sp),
-        child: ChoiceChip(
-          labelPadding: EdgeInsets.all(15.sp),
-          //padding: EdgeInsets.all(20.sp),
-          label: Text(item),
-
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        child: FilterChip(
+          showCheckmark: false,
+          //inside chip padding
+          labelPadding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+          padding: EdgeInsets.symmetric(horizontal: 32.w),
+          label: SingleChildScrollView(child: Text(item)),
           labelStyle: TextStyle(
               color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold),
           shape: RoundedRectangleBorder(
@@ -220,14 +218,8 @@ class _choiceChipWidgetState extends State<choiceChipWidget> {
           selected: selectedChoice == item,
           onSelected: (selected) {
             setState(() {
-              selected == true;
+              //selected == true;
               selectedChoice = item;
-              // if (selected) {
-              //   TextStyle(
-              //       color: Colors.white,
-              //       fontSize: 16.0.sp,
-              //       fontWeight: FontWeight.bold);
-              // }
             });
           },
         ),

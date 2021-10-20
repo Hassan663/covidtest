@@ -15,6 +15,7 @@ class RegisterAccount extends StatelessWidget {
   TextEditingController? emailController = TextEditingController();
   TextEditingController? passwordController = TextEditingController();
   TextEditingController? confirmpasswordController = TextEditingController();
+  late String _passwordError;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -53,33 +54,17 @@ class RegisterAccount extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 39.w),
                         child: textformfield(
-                            fNameController,
-                            'Enter first name',
-                            'First Name',
-                            
-                            false,
-                            TextInputType.name,
-                            "Please fill this field",),
-                      ),
-                      SizedBox(
-                        height: 30.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 39.w),
-                        child: textformfield(lNameController, 'Enter last name',
-                            'Last Name', false, TextInputType.name,"Please fill this field",),
-                      ),
-                      SizedBox(
-                        height: 30.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 39.w),
-                        child: textformfield(
-                            emailController,
-                            'Enter your email',
-                            'Email',
-                            false,
-                            TextInputType.emailAddress,"Please fill this field",),
+                          fNameController,
+                          'Enter first name',
+                          'First Name',
+                          false,
+                          TextInputType.name,
+                          (value) {
+                            return (value!.isEmpty)
+                                ? "First Name can't be Empity"
+                                : null;
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 30.h,
@@ -87,11 +72,17 @@ class RegisterAccount extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 39.w),
                         child: textformfield(
-                            passwordController,
-                            'Enter Password',
-                            'Password',
-                            true,
-                            TextInputType.name,"Please fill this field",),
+                          lNameController,
+                          'Enter last name',
+                          'Last Name',
+                          false,
+                          TextInputType.name,
+                          (value) {
+                            return (value!.isEmpty)
+                                ? "Last Name can't be Empity"
+                                : null;
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 30.h,
@@ -99,11 +90,56 @@ class RegisterAccount extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 39.w),
                         child: textformfield(
-                            confirmpasswordController,
-                            'Confirm Password',
-                            'Confirm Password',
-                            true,
-                            TextInputType.name,"Please fill this field",),
+                          emailController,
+                          'Enter your email',
+                          'Email',
+                          false,
+                          TextInputType.emailAddress,
+                          (value) {
+                            Pattern pattern =
+                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                            RegExp regex = new RegExp(pattern as String);
+                            return (!regex.hasMatch(value!))
+                                ? "Please Enter Valid Email"
+                                : null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 39.w),
+                        child: textformfield(
+                          passwordController,
+                          'Enter Password',
+                          'Password',
+                          true,
+                          TextInputType.name,
+                          (value) {
+                            return (value!.isEmpty)
+                                ? "Password can't be Empity"
+                                : null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 39.w),
+                        child: textformfield(
+                          confirmpasswordController,
+                          'Confirm Password',
+                          'Confirm Password',
+                          true,
+                          TextInputType.name,
+                          (value) {
+                            return (value!.isEmpty)
+                                ? "Password can't be Empity"
+                                : null;
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 30.h,
@@ -136,8 +172,18 @@ class RegisterAccount extends StatelessWidget {
                         height: 20.h,
                       ),
                       InkWell(
+                        // onTap: () {
+                        //   Get.to(UserBillingInformation());
+                        // },
                         onTap: () {
-                          Get.to(UserBillingInformation());
+                          if (fNameController!.text.length < 1 ||
+                              emailController!.text.length < 1 ||
+                              passwordController!.text.length < 1 ||
+                              confirmpasswordController!.text.length < 1 ||
+                              lNameController!.text.length < 1) {
+                            _passwordError = "Enter atleast";
+                          } else
+                            Get.to(UserBillingInformation());
                         },
                         child: Container(
                           alignment: Alignment.center,

@@ -11,6 +11,7 @@ class UserBillingInformation extends StatelessWidget {
   TextEditingController? cardNumberController = TextEditingController();
   TextEditingController? cardHolderNameController = TextEditingController();
   TextEditingController? cvvController = TextEditingController();
+  late String _passwordError;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -24,138 +25,172 @@ class UserBillingInformation extends StatelessWidget {
             child: Container(
               height: height,
               width: width * 0.4,
-              child: Card(
-                shadowColor: Colors.grey,
-                elevation: 10,
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 40.h),
-                      child: Image.asset("assets/rtt.png"),
-                    ),
-                    Text(
-                      "Create Account",
-                      style: GoogleFonts.openSans(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20.0.h),
-                      child: Text(
-                        'Billing Information',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 20.0),
+              child: SingleChildScrollView(
+                child: Card(
+                  shadowColor: Colors.grey,
+                  elevation: 10,
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 40.h),
+                        child: Image.asset("assets/rtt.png"),
                       ),
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 39.w),
-                      child: textformfield(
+                      Text(
+                        "Create Account",
+                        style: GoogleFonts.openSans(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.0.h),
+                        child: Text(
+                          'Billing Information',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 20.0),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 39.w),
+                        child: textformfield(
                           cardNumberController,
                           'Enter card number',
                           'Card Number',
                           false,
-                          TextInputType.number,"Please fill this field",),
-                    ),
-                    SizedBox(
-                      height: 40.h,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 39.w),
-                      child: textformfield(
+                          TextInputType.number,
+                          (value) {
+                            return (value!.isEmpty)
+                                ? "Card can't be Empity"
+                                : null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 39.w),
+                        child: textformfield(
                           cardHolderNameController,
                           'Enter card holder name',
                           'Card Holder Name',
                           false,
-                          TextInputType.name,"Please fill this field",),
-                    ),
-                    SizedBox(
-                      height: 40.h,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 39.w),
-                      child: textformfield(cvvController, 'Enter Cvv', 'Cvv',
-                          false, TextInputType.number,"Please fill this field",),
-                    ),
-                    SizedBox(
-                      height: 40.h,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 40.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Already have an account? ",
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(Login());
-                                },
-                                child: Container(
-                                  padding:
-                                      EdgeInsets.symmetric(vertical: 15.0.h),
-                                  child: const Text(
-                                    "Log In",
-                                    style: TextStyle(
-                                      color: Color(0xfffc6359),
-                                      fontSize: 14.0,
+                          TextInputType.name,
+                          (value) {
+                            return (value!.isEmpty)
+                                ? "Card Holder Number can't be Empity"
+                                : null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 39.w),
+                        child: textformfield(
+                          cvvController,
+                          'Enter Cvv',
+                          'Cvv',
+                          false,
+                          TextInputType.number,
+                          (value) {
+                            return (value!.isEmpty)
+                                ? "Cvc can't be Empity"
+                                : null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 40.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Already have an account? ",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.to(Login());
+                                  },
+                                  child: Container(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 15.0.h),
+                                    child: const Text(
+                                      "Log In",
+                                      style: TextStyle(
+                                        color: Color(0xfffc6359),
+                                        fontSize: 14.0,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 30.w),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/paypal.png",
-                                      height: 40,
-                                      width: 40,
-                                    ),
-                                    Image.asset(
-                                      "assets/mastercard1.png",
-                                      height: 50,
-                                      width: 50,
-                                    ),
-                                  ],
-                                )
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40.h,
-                    ),
-                    InkWell(
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        padding: const EdgeInsets.symmetric(vertical: 15.0),
-                        decoration: BoxDecoration(
-                            color: const Color(0xfffc6359),
-                            borderRadius: BorderRadius.circular(30.0)),
-                        child: const Text(
-                          'Create Account',
-                          style: TextStyle(color: Colors.white),
+                            Padding(
+                              padding: EdgeInsets.only(right: 30.w),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/paypal.png",
+                                        height: 40,
+                                        width: 40,
+                                      ),
+                                      Image.asset(
+                                        "assets/mastercard1.png",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    )
-                  ],
+                      SizedBox(
+                        height: 40.h,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          if (cardNumberController!.text.length < 1 ||
+                              cardHolderNameController!.text.length < 1 ||
+                              cvvController!.text.length < 1) {
+                            _passwordError = "Enter atleast";
+                          } else {}
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          padding: const EdgeInsets.symmetric(vertical: 15.0),
+                          decoration: BoxDecoration(
+                              color: const Color(0xfffc6359),
+                              borderRadius: BorderRadius.circular(30.0)),
+                          child: const Text(
+                            'Create Account',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

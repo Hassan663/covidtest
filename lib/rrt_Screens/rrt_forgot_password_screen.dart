@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rrt_client_web_app/rrt_Screens/home_screen.dart';
+import 'package:rrt_client_web_app/rrt_Screens/login.dart';
+import 'package:rrt_client_web_app/rrt_Screens/user_billing_information.dart';
 import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
 import 'package:rrt_client_web_app/rrt_widgets/textfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ForgotPassword extends StatelessWidget {
   TextEditingController? passwordController = TextEditingController();
   TextEditingController? confirmpasswordController = TextEditingController();
+  late String _passwordError;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -20,7 +23,7 @@ class ForgotPassword extends StatelessWidget {
           child: SingleChildScrollView(
             child: Container(
               height: height * 0.7,
-              width: width*0.4,
+              width: width * 0.4,
               child: Card(
                 shadowColor: Colors.grey,
                 elevation: 10,
@@ -44,15 +47,35 @@ class ForgotPassword extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 39.w),
                       child: textformfield(
-                          passwordController, 'Enter username', 'Username',false,TextInputType.name,"Please fill this field",),
+                        passwordController,
+                        'Enter username',
+                        'Username',
+                        false,
+                        TextInputType.name,
+                        (value) {
+                          return (value!.isEmpty)
+                              ? "Username can't be Empity"
+                              : null;
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: 40.h,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 39.w),
-                      child: textformfield(confirmpasswordController,
-                          'Enter password', 'Confirm Password',false,TextInputType.name,"Please fill this field",),
+                      child: textformfield(
+                        confirmpasswordController,
+                        'Enter password',
+                        'Confirm Password',
+                        false,
+                        TextInputType.name,
+                        (value) {
+                          return (value!.isEmpty)
+                              ? "Password can't be Empity"
+                              : null;
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: 50.h,
@@ -73,7 +96,10 @@ class ForgotPassword extends StatelessWidget {
                     // )
                     InkWell(
                       onTap: () {
-                        // Get.to(Login());
+                        if (passwordController!.text.length < 1 ||
+                            confirmpasswordController!.text.length < 1) {
+                          _passwordError = "Enter atleast";
+                        } else {}
                       },
                       child: Container(
                         alignment: Alignment.center,
