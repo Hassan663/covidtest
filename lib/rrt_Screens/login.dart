@@ -5,6 +5,7 @@ import 'package:resize/resize.dart';
 import 'package:rrt_client_web_app/rrt_Screens/home_screen.dart';
 import 'package:rrt_client_web_app/rrt_Screens/register_account.dart';
 import 'package:rrt_client_web_app/rrt_Screens/rrt_forgot_password_screen.dart';
+import 'package:rrt_client_web_app/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
 import 'package:rrt_client_web_app/rrt_widgets/textfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -114,7 +115,7 @@ class _LoginState extends State<Login> {
                           TextInputType.name,
                           (value) {
                             return (value!.isEmpty)
-                                ? "Password can't be Empity"
+                                ? "Password can't be Empty"
                                 : null;
                           },
                         ),
@@ -178,29 +179,29 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: 20,
                       ),
-                      InkWell(
-                        onTap: () {
+
+                      CircularButtons(
+                        backgroundColor: const Color(0xfffc6359),
+                        borderColor: const Color(0xfffc6359),
+                        text: "Log In",
+                        height: 50,
+                        width: width * 0.2,
+                        onPressed: () {
                           setState(() {
-                            if (usernameController!.text.length < 1 ||
+                            if (usernameController!.text.endsWith(".com") ==
+                                    false ||
                                 passwordController!.text.length < 1) {
-                              _passwordError = "Enter atleast";
+                              _passwordError = "This field is required*";
+                              print("ok");
                             } else
                               Get.to(HomePage());
                           });
                         },
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          decoration: BoxDecoration(
-                              color: const Color(0xfffc6359),
-                              borderRadius: BorderRadius.circular(30.0)),
-                          child: const Text(
-                            'Log In',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
+                        textColor: Colors.white,
+                        textStyle: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w600),
                       ),
+
                       SizedBox(
                         height: 20,
                       ),
@@ -215,3 +216,28 @@ class _LoginState extends State<Login> {
     );
   }
 }
+// InkWell(
+                      //     onTap: () {
+                      //       setState(() {
+                      //         if (usernameController!.text.endsWith(".com") ==
+                      //                 false ||
+                      //             passwordController!.text.length < 1) {
+                      //           _passwordError = "This field is required*";
+                      //           print("ok");
+                      //         } else
+                      //           Get.to(HomePage());
+                      //       });
+                      //     },
+                      // Container(
+                      //   alignment: Alignment.center,
+                      //   width: MediaQuery.of(context).size.width * 0.2,
+                      //   padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      //   decoration: BoxDecoration(
+                      //       color: const Color(0xfffc6359),
+                      //       borderRadius: BorderRadius.circular(30.0)),
+                      //   child: const Text(
+                      //     'Log In',
+                      //     style: TextStyle(color: Colors.white),
+                      //   ),
+                      // ),
+                      //),

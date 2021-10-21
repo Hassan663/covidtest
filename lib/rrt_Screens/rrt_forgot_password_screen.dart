@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import 'package:rrt_client_web_app/rrt_Screens/home_screen.dart';
 import 'package:rrt_client_web_app/rrt_Screens/login.dart';
 import 'package:rrt_client_web_app/rrt_Screens/user_billing_information.dart';
+import 'package:rrt_client_web_app/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
 import 'package:rrt_client_web_app/rrt_widgets/textfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ForgotPassword extends StatelessWidget {
+class ForgotPassword extends StatefulWidget {
+  @override
+  _ForgotPasswordState createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController? passwordController = TextEditingController();
+
   TextEditingController? confirmpasswordController = TextEditingController();
+
   late String _passwordError;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -68,7 +78,7 @@ class ForgotPassword extends StatelessWidget {
                         confirmpasswordController,
                         'Enter password',
                         'Confirm Password',
-                        false,
+                        true,
                         TextInputType.name,
                         (value) {
                           return (value!.isEmpty)
@@ -80,40 +90,24 @@ class ForgotPassword extends StatelessWidget {
                     SizedBox(
                       height: 50.h,
                     ),
-                    // InkWell(
-                    //   child: Container(
-                    //     alignment: Alignment.center,
-                    //     width: MediaQuery.of(context).size.width * 0.2,
-                    //     padding: EdgeInsets.symmetric(vertical: 20.0.h),
-                    //     decoration: BoxDecoration(
-                    //         color: Color(0xfffc6359),
-                    //         borderRadius: BorderRadius.circular(30.0)),
-                    //     child: const Text(
-                    //       'Log In',
-                    //       style: TextStyle(color: Colors.white),
-                    //     ),
-                    //   ),
-                    // )
-                    InkWell(
-                      onTap: () {
-                        if (passwordController!.text.length < 1 ||
-                            confirmpasswordController!.text.length < 1) {
-                          _passwordError = "Enter atleast";
-                        } else {}
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        padding: const EdgeInsets.symmetric(vertical: 15.0),
-                        decoration: BoxDecoration(
-                            color: const Color(0xfffc6359),
-                            borderRadius: BorderRadius.circular(30.0)),
-                        child: const Text(
-                          'Log In',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
+                    CircularButtons(
+                        backgroundColor: const Color(0xfffc6359),
+                        borderColor: const Color(0xfffc6359),
+                        text: "Login",
+                        height: 50,
+                        width: width * 0.2,
+                        textColor: Colors.white,
+                        textStyle: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w600),
+                        onPressed: () {
+                          if (passwordController!.text.length < 5 ||
+                              confirmpasswordController!.text.length < 5) {
+                            _passwordError = "Enter atleast";
+                          } else {
+                            Get.to(HomePage());
+                          }
+                          ;
+                        }),
                     SizedBox(
                       height: 20,
                     ),
@@ -128,3 +122,27 @@ class ForgotPassword extends StatelessWidget {
     ;
   }
 }
+// InkWell(
+                    //   onTap: () {
+                    //     if (passwordController!.text.length < 5 ||
+                    //         confirmpasswordController!.text.length < 5) {
+                    //       _passwordError = "Enter atleast";
+                    //     } else {
+                    //       Get.to(HomePage());
+                    //     }
+                    //   },
+                    //   child: Container(
+                    //     alignment: Alignment.center,
+                    //     width: MediaQuery.of(context).size.width * 0.2,
+                    //     padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    //     decoration: BoxDecoration(
+                    //         color: const Color(0xfffc6359),
+                    //         borderRadius: BorderRadius.circular(30.0)),
+                    //     child: const Text(
+                    //       'Log In',
+                    //       style: TextStyle(color: Colors.white),
+                    //     ),
+                    //   ),
+                    // ),
+
+

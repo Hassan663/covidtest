@@ -45,6 +45,8 @@ dependencies:
   rflutter_alert: ^2.0.4
   flutter_timer_countdown: ^1.0.2
   form_field_validator: ^1.1.0
+  easy_mask: ^2.0.1
+  text_input_mask_formatter: ^0.0.3
   
 
 dev_dependencies:

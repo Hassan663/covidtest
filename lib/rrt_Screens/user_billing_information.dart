@@ -2,16 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rrt_client_web_app/rrt_widgets/button.dart';
+import 'package:rrt_client_web_app/rrt_widgets/rrt_colors.dart';
 import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
 import 'package:rrt_client_web_app/rrt_widgets/textfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login.dart';
+import 'package:easy_mask/easy_mask.dart';
+import 'package:text_input_mask_formatter/text_input_mask_formatter.dart';
 
 class UserBillingInformation extends StatelessWidget {
   TextEditingController? cardNumberController = TextEditingController();
   TextEditingController? cardHolderNameController = TextEditingController();
   TextEditingController? cvvController = TextEditingController();
   late String _passwordError;
+  final maskformatter = MaskTextInputFormatter("#### #### #### ####");
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -54,12 +59,68 @@ class UserBillingInformation extends StatelessWidget {
                       SizedBox(
                         height: 20.h,
                       ),
+                      SizedBox(
+                        height: 40.h,
+                      ),
+                      Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 39.w),
+                          child: TextFormField(inputFormatters: [maskformatter],
+                              autovalidate: true,
+                              validator: (value) {
+                                return (value!.isEmpty)
+                                    ? "Card Holder Number can't be Empity"
+                                    : null;
+                              },
+                              keyboardType: TextInputType.number,
+                              obscureText: false,
+                              cursorColor: fLabelTextColor,
+                              //controller: _controller,
+                              decoration: InputDecoration(
+                                  hintText: 'Enter Card Number',
+                                  labelText: 'Card Number',
+                                  hintStyle:
+                                      const TextStyle(color: Color(0xFF797a7a)),
+                                  labelStyle:
+                                      const TextStyle(color: Color(0xff83b7b8)),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20.w, vertical: 20.h),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.sp),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xff83b7b8)),
+                                    gapPadding: 10.sp,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.sp),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xff83b7b8)),
+                                    gapPadding: 10,
+                                  )))
+
+                          // textformfield(
+                          //   cardHolderNameController,
+                          //   'Enter card holder name',
+                          //   'Card Holder Name',
+                          //   false,
+                          //   TextInputType.name,
+                          //   (value) {
+                          //     return (value!.isEmpty)
+                          //         ? "Card Holder Number can't be Empity"
+                          //         : null;
+                          //   },
+                          // ),
+                          ),
+                      SizedBox(
+                        height: 40.h,
+                      ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 39.w),
                         child: textformfield(
                           cardNumberController,
-                          'Enter card number',
-                          'Card Number',
+                          'Enter Card Holder Name',
+                          'Card Holder Name',
                           false,
                           TextInputType.number,
                           (value) {
@@ -73,38 +134,55 @@ class UserBillingInformation extends StatelessWidget {
                         height: 40.h,
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 39.w),
-                        child: textformfield(
-                          cardHolderNameController,
-                          'Enter card holder name',
-                          'Card Holder Name',
-                          false,
-                          TextInputType.name,
-                          (value) {
-                            return (value!.isEmpty)
-                                ? "Card Holder Number can't be Empity"
-                                : null;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 39.w),
-                        child: textformfield(
-                          cvvController,
-                          'Enter Cvv',
-                          'Cvv',
-                          false,
-                          TextInputType.number,
-                          (value) {
-                            return (value!.isEmpty)
-                                ? "Cvc can't be Empity"
-                                : null;
-                          },
-                        ),
-                      ),
+                          padding: EdgeInsets.symmetric(horizontal: 39.w),
+                          child: TextFormField(
+                              autovalidate: true,
+                              validator: (value) {
+                                return (value!.isEmpty)
+                                    ? "Cvc can't be Empity"
+                                    : null;
+                              },
+                              keyboardType: TextInputType.number,
+                              obscureText: false,
+                              cursorColor: fLabelTextColor,
+                              //controller: _controller,
+                              decoration: InputDecoration(
+                                  hintText: 'Enter Cvv',
+                                  labelText: 'Cvv',
+                                  hintStyle:
+                                      const TextStyle(color: Color(0xFF797a7a)),
+                                  labelStyle:
+                                      const TextStyle(color: Color(0xff83b7b8)),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20.w, vertical: 20.h),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.sp),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xff83b7b8)),
+                                    gapPadding: 10.sp,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.sp),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xff83b7b8)),
+                                    gapPadding: 10,
+                                  )))
+
+                          //textformfield(
+                          //   cvvController,
+                          //   'Enter Cvv',
+                          //   'Cvv',
+                          //   false,
+                          //   TextInputType.number,
+                          //   (value) {
+                          //     return (value!.isEmpty)
+                          //         ? "Cvc can't be Empity"
+                          //         : null;
+                          //   },
+                          // ),
+                          ),
                       SizedBox(
                         height: 40.h,
                       ),
@@ -165,26 +243,22 @@ class UserBillingInformation extends StatelessWidget {
                       SizedBox(
                         height: 40.h,
                       ),
-                      InkWell(
-                        onTap: () {
+                      CircularButtons(
+                        backgroundColor: const Color(0xfffc6359),
+                        borderColor: const Color(0xfffc6359),
+                        text: "Create Account",
+                        height: 50,
+                        width: width * 0.2,
+                        textColor: Colors.white,
+                        textStyle: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w600),
+                        onPressed: () {
                           if (cardNumberController!.text.length < 1 ||
                               cardHolderNameController!.text.length < 1 ||
                               cvvController!.text.length < 1) {
                             _passwordError = "Enter atleast";
                           } else {}
                         },
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          decoration: BoxDecoration(
-                              color: const Color(0xfffc6359),
-                              borderRadius: BorderRadius.circular(30.0)),
-                          child: const Text(
-                            'Create Account',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
                       ),
                       SizedBox(
                         height: 20.h,
@@ -200,3 +274,24 @@ class UserBillingInformation extends StatelessWidget {
     );
   }
 }
+// InkWell(
+                      //   onTap: () {
+                      //     if (cardNumberController!.text.length < 1 ||
+                      //         cardHolderNameController!.text.length < 1 ||
+                      //         cvvController!.text.length < 1) {
+                      //       _passwordError = "Enter atleast";
+                      //     } else {}
+                      //   },
+                      //   child: Container(
+                      //     alignment: Alignment.center,
+                      //     width: MediaQuery.of(context).size.width * 0.2,
+                      //     padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      //     decoration: BoxDecoration(
+                      //         color: const Color(0xfffc6359),
+                      //         borderRadius: BorderRadius.circular(30.0)),
+                      //     child: const Text(
+                      //       'Create Account',
+                      //       style: TextStyle(color: Colors.white),
+                      //     ),
+                      //   ),
+                      // ),

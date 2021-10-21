@@ -3,19 +3,31 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rrt_client_web_app/rrt_Screens/login.dart';
 import 'package:rrt_client_web_app/rrt_Screens/rrt_forgot_password_screen.dart';
+import 'package:rrt_client_web_app/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/rrt_widgets/rrt_colors.dart';
 import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
 import 'package:rrt_client_web_app/rrt_widgets/textfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'user_billing_information.dart';
 
-class RegisterAccount extends StatelessWidget {
+class RegisterAccount extends StatefulWidget {
+  @override
+  _RegisterAccountState createState() => _RegisterAccountState();
+}
+
+class _RegisterAccountState extends State<RegisterAccount> {
   TextEditingController? fNameController = TextEditingController();
+
   TextEditingController? lNameController = TextEditingController();
+
   TextEditingController? emailController = TextEditingController();
+
   TextEditingController? passwordController = TextEditingController();
+
   TextEditingController? confirmpasswordController = TextEditingController();
+
   late String _passwordError;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -171,13 +183,15 @@ class RegisterAccount extends StatelessWidget {
                       SizedBox(
                         height: 20.h,
                       ),
-                      InkWell(
-                        // onTap: () {
-                        //   Get.to(UserBillingInformation());
-                        // },
-                        onTap: () {
+                      CircularButtons(
+                        backgroundColor: const Color(0xfffc6359),
+                        borderColor: const Color(0xfffc6359),
+                        text: "Next",
+                        height: 50,
+                        width: width * 0.2,
+                        onPressed: () {
                           if (fNameController!.text.length < 1 ||
-                              emailController!.text.length < 1 ||
+                              emailController!.text.endsWith(".com") == false ||
                               passwordController!.text.length < 1 ||
                               confirmpasswordController!.text.length < 1 ||
                               lNameController!.text.length < 1) {
@@ -185,22 +199,52 @@ class RegisterAccount extends StatelessWidget {
                           } else
                             Get.to(UserBillingInformation());
                         },
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          decoration: BoxDecoration(
-                              color: const Color(0xfffc6359),
-                              borderRadius: BorderRadius.circular(30.0)),
-                          child: const Text(
-                            'Next',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
+                        textColor: Colors.white,
+                        textStyle: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
                         height: 20,
                       ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+// InkWell(
+                      //   // onTap: () {
+                      //   //   Get.to(UserBillingInformation());
+                      //   // },
+                      //   onTap: () {
+                      //     if (fNameController!.text.length < 1 ||
+                      //         emailController!.text.endsWith(".com") == false ||
+                      //         passwordController!.text.length < 1 ||
+                      //         confirmpasswordController!.text.length < 1 ||
+                      //         lNameController!.text.length < 1) {
+                      //       _passwordError = "Enter atleast";
+                      //     } else
+                      //       Get.to(UserBillingInformation());
+                      //   },
+
+                      // child: Container(
+                      //   alignment: Alignment.center,
+                      //   width: MediaQuery.of(context).size.width * 0.2,
+                      //   padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      //   decoration: BoxDecoration(
+                      //       color: const Color(0xfffc6359),
+                      //       borderRadius: BorderRadius.circular(30.0)),
+                      //   child: const Text(
+                      //     'Next',
+                      //     style: TextStyle(color: Colors.white),
+                      //   ),
+                      // ),
+                      //),
                       // InkWell(
                       //   onTap: () {
                       //     Get.to(UserBillingInformation());
@@ -222,14 +266,3 @@ class RegisterAccount extends StatelessWidget {
                       //     ),
                       //   ),
                       // )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Login(),
+        home: UserBillingInformation(),
       ),
       designSize: Size(1920, 1080),
     );
