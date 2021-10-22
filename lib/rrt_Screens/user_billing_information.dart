@@ -64,7 +64,7 @@ class UserBillingInformation extends StatelessWidget {
                       ),
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 39.w),
-                          child: TextFormField(inputFormatters: [maskformatter],
+                          child: TextFormField(
                               autovalidate: true,
                               validator: (value) {
                                 return (value!.isEmpty)
