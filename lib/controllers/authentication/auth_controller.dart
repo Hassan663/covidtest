@@ -1,5 +1,4 @@
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,42 +23,42 @@ class AuthController extends GetxController {
 
   // CHECKING DUPLICATE EMAIL
   Future<List<String>> checkDuplicateEmail(String email) async {
-    try{
+    try {
       return await _auth.fetchSignInMethodsForEmail(email);
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       rethrow;
     }
-
   }
 
-
   //  CREATE USER WITH EMAIL AND PASSWORD
-  Future<AuthResultStatus> createUser(String email, String password, String firstName, String lastName) async {
+  Future<AuthResultStatus> createUser(
+      String email, String password, String firstName, String lastName) async {
     try {
       UserCredential _authResult = await _auth.createUserWithEmailAndPassword(
           email: email.trim(), password: password);
 
-      if(_authResult.user != null){
+      if (_authResult.user != null) {
         _status = AuthResultStatus.successful;
         AuthModel _user = AuthModel(
             uid: _authResult.user!.uid,
             firstName: firstName,
             lastName: lastName,
             email: email.trim(),
-            imageUrl: ''
-        );
+            imageUrl: '',
+            createdAt: Timestamp.now());
+
+        Database().createUserInDatabase(_user).then((value) => print(value));
+
         currentUser.value = _user;
-      }else{
+      } else {
         _status = AuthResultStatus.undefined;
       }
-
-    } on FirebaseAuthException catch  (e) {
+    } on FirebaseAuthException catch (e) {
       debugPrint(e.code);
       _status = AuthExceptionHandler.handleException(e);
     }
     return _status!;
   }
-
 
   // Login with email and password
   Future<AuthResultStatus> loginUser(String email, String password) async {
@@ -79,11 +78,9 @@ class AuthController extends GetxController {
 
         // TODO :: LOAD USER INFO FROM FIRESTORE COLLECTION
         currentUser.value = await Database().getUser(_authResult.user!.uid);
-
       } else {
         _status = AuthResultStatus.undefined;
       }
-
     } on FirebaseAuthException catch (e) {
       debugPrint(e.code);
       _status = AuthExceptionHandler.handleException(e);
@@ -97,8 +94,8 @@ class AuthController extends GetxController {
       await _auth.signOut();
       // TODO :: TAKE USER TO LOGIN SCREEN
     } catch (e) {
-      CustomSnackBar.showSnackBar(title: e.toString(), message: '', backgroundColor: snackBarError);
+      CustomSnackBar.showSnackBar(
+          title: e.toString(), message: '', backgroundColor: snackBarError);
     }
   }
-
 }
