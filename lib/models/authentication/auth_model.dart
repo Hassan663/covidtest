@@ -12,7 +12,8 @@ class AuthModel {
       {this.uid, this.firstName, this.lastName, this.email, this.imageUrl, this.createdAt});
 
   AuthModel.fromDocumentSnapshot(DocumentSnapshot doc) {
-    uid = doc['uid'];
+    print(doc.data());
+    uid = doc.id;
     firstName = doc['firstName'];
     lastName = doc['lastName'];
     email = doc['email'];

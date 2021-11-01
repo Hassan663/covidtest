@@ -14,7 +14,8 @@ class Database{
         'firstName' : user.firstName,
         'lastName' : user.lastName,
         'email' : user.email,
-        'imageUrl' : user.imageUrl
+        'imageUrl' : user.imageUrl,
+        'createdAt' : user.createdAt,
       });
       return true;
     }catch(e){
