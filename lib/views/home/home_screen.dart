@@ -2,6 +2,8 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
 import 'package:rrt_client_web_app/views/home/schedule_appointment.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/capture_picture.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/change_password.dart';
@@ -22,6 +24,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PageController page = PageController();
+
+  final appointmentController = Get.put(AppointmentController());
 
   @override
   Widget build(BuildContext context) {
