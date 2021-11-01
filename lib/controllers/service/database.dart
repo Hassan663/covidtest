@@ -1,6 +1,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:rrt_client_web_app/constants/custom_snackbar.dart';
+import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/models/authentication/auth_model.dart';
 
 class Database{
@@ -28,7 +30,12 @@ class Database{
   Future<AuthModel> getUser(String uid) async {
     try{
       DocumentSnapshot doc = await _firestore.collection("client").doc(uid).get();
+      if(!doc.exists){
+        CustomSnackBar.showSnackBar(
+            title: "Not Authorized", message: '', backgroundColor: snackBarError);
+      }
       return AuthModel.fromDocumentSnapshot(doc);
+
     }catch(e){
       debugPrint(e.toString());
       rethrow;
