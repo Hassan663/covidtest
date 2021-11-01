@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rrt_client_web_app/controllers/authentication/auth_controller.dart';
-import 'package:rrt_client_web_app/views/rrt_Screens/login.dart';
+import 'package:rrt_client_web_app/views/authentication/auth_decider.dart';
+import 'package:rrt_client_web_app/views/authentication/login.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Login(),
+        home: AuthDecider(),
       ),
       designSize: const Size(1920, 1080),
     );

@@ -8,12 +8,12 @@ import 'package:rrt_client_web_app/constants/custom_snackbar.dart';
 import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/constants/utils/auth_exception_handler.dart';
 import 'package:rrt_client_web_app/controllers/authentication/auth_controller.dart';
-import 'package:rrt_client_web_app/views/rrt_Screens/register_account.dart';
+import 'package:rrt_client_web_app/views/authentication/register_account.dart';
 import 'package:rrt_client_web_app/views/rrt_Screens/rrt_forgot_password_screen.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
 
-import 'home_screen.dart';
+import '../rrt_Screens/home_screen.dart';
 
 class Login extends StatefulWidget {
   @override

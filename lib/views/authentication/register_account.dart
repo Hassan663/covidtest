@@ -9,9 +9,9 @@ import 'package:rrt_client_web_app/constants/utils/auth_exception_handler.dart';
 import 'package:rrt_client_web_app/controllers/authentication/auth_controller.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
-import 'home_screen.dart';
+import '../rrt_Screens/home_screen.dart';
 import 'login.dart';
-import 'user_billing_information.dart';
+import '../rrt_Screens/user_billing_information.dart';
 
 class RegisterAccount extends StatefulWidget {
   @override

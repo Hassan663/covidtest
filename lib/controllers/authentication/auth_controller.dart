@@ -7,6 +7,8 @@ import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/constants/utils/auth_exception_handler.dart';
 import 'package:rrt_client_web_app/controllers/service/database.dart';
 import 'package:rrt_client_web_app/models/authentication/auth_model.dart';
+import '../../views/authentication/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,6 +30,10 @@ class AuthController extends GetxController {
     } on FirebaseAuthException catch (e) {
       rethrow;
     }
+  }
+
+  void getUserById(String uid)async{
+    currentUser.value = await Database().getUser(uid);
   }
 
   //  CREATE USER WITH EMAIL AND PASSWORD
@@ -75,7 +81,7 @@ class AuthController extends GetxController {
         );
 
         currentUser.value = _user;
-
+        saveUserState(_authResult.user!.uid);
         // TODO :: LOAD USER INFO FROM FIRESTORE COLLECTION
         currentUser.value = await Database().getUser(_authResult.user!.uid);
       } else {
@@ -92,10 +98,22 @@ class AuthController extends GetxController {
   void logOut() async {
     try {
       await _auth.signOut();
-      // TODO :: TAKE USER TO LOGIN SCREEN
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('uid');
+      Get.offAll(() => Login());
     } catch (e) {
       CustomSnackBar.showSnackBar(
           title: e.toString(), message: '', backgroundColor: snackBarError);
     }
+  }
+
+  void saveUserState(String uid) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('uid', uid);
+  }
+
+  Future getUserId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('uid');
   }
 }
