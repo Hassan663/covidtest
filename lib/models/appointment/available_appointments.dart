@@ -17,5 +17,5 @@ class AvailableAppointments {
       createdAt = doc['createdAt'];
   }
 
-  Map<String, dynamic> toJson() => {'uid':uid, 'nurseId':nurseId, "schedule": schedule, "createdAt": createdAt };
+  Map<String, dynamic> toJson() => {'uid':uid, 'nurseId':nurseId, "schedule": schedule!.toJson(), "createdAt": createdAt };
 }

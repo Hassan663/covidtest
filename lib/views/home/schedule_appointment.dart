@@ -332,6 +332,7 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                                                     print(appointmentController.availableAppointments[index].schedule?.slots!.toList());
                                                     setState(() {
                                                       appointmentController.chipList.value = appointmentController.availableAppointments[index].schedule!.slots!;
+                                                      appointmentController.selectedApp.value = appointmentController.availableAppointments[index];
                                                     });
 
                                                     print(appointmentController.chipList.length);
@@ -522,10 +523,11 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                       child: CircularButtons(
                         backgroundColor: const Color(0xfffc6359),
                         borderColor: const Color(0xfffc6359),
-                        text: "Save",
+                        text: "Generate Request",
                         height: 40,
                         width: width * 0.1,
                         onPressed: () {
+                          appointmentController.createRequestInDatabase();
                         },
                         textColor: Colors.white,
                         textStyle: TextStyle(

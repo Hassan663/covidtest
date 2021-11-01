@@ -19,5 +19,5 @@ class Schedule {
     }
   }
 
-  Map<String, dynamic> toJson() => {"date": date, "slots": slots};
+  Map<String, dynamic> toJson() => {"date": date, "slots": slots!.map((e) => e.toJson()).toList()};
 }
