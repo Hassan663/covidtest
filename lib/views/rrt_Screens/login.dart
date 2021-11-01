@@ -31,11 +31,11 @@ class _LoginState extends State<Login> {
     final status =
         await authController.loginUser(usernameController.text.trim(), passwordController.text);
     if (status == AuthResultStatus.successful) {
+      Get.off(HomePage());
       CustomSnackBar.showSnackBar(
           title: "Login Successful",
           message: '',
           backgroundColor: snackBarSuccess);
-      Get.off(HomePage());
     } else {
       final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
       CustomSnackBar.showSnackBar(
