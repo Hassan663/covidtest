@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
 
-import 'home_screen.dart';
+import '../home/home_screen.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override

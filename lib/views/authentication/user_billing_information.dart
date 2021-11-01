@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
-import '../authentication/login.dart';
+import 'login.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:text_input_mask_formatter/text_input_mask_formatter.dart';
 

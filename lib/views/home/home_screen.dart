@@ -2,7 +2,7 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rrt_client_web_app/views/rrt_Screens/schedule_appointment.dart';
+import 'package:rrt_client_web_app/views/home/schedule_appointment.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/capture_picture.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/change_password.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/help.dart';
