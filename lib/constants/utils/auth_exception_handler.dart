@@ -10,6 +10,7 @@ enum AuthResultStatus {
   operationNotAllowed,
   tooManyRequests,
   undefined,
+  weekPassword
 }
 
 
@@ -20,6 +21,9 @@ class AuthExceptionHandler {
     switch (e.code) {
       case "invalid-email":
         status = AuthResultStatus.invalidEmail;
+        break;
+        case "weak-password":
+        status = AuthResultStatus.weekPassword;
         break;
       case "wrong-password":
         status = AuthResultStatus.wrongPassword;
@@ -56,6 +60,9 @@ class AuthExceptionHandler {
         break;
       case AuthResultStatus.wrongPassword:
         errorMessage = "Invalid Password";
+        break;
+        case AuthResultStatus.weekPassword:
+        errorMessage = "Week Password";
         break;
       case AuthResultStatus.userNotFound:
         errorMessage = "User with this email doesn't exist.";
