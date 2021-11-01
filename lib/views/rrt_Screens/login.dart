@@ -20,14 +20,13 @@ class _LoginState extends State<Login> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   void validate() {
     if (formkey.currentState!.validate()) {
-      print("Validated");
+      debugPrint("Validated");
     } else {
-      print("object");
+      debugPrint("object");
     }
   }
 
   TextEditingController? usernameController = TextEditingController();
-
   TextEditingController? passwordController = TextEditingController();
 
   late String _passwordError;
@@ -44,7 +43,7 @@ class _LoginState extends State<Login> {
   _validateAndSubmitSignIn(context) async {
     if (validateAndSave()) {
     } else {
-      print("Please fill all filds".toUpperCase());
+      debugPrint("Please fill all filds".toUpperCase());
     }
   }
 
@@ -54,7 +53,7 @@ class _LoginState extends State<Login> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xffE5E5E5),
+        backgroundColor:const Color(0xffE5E5E5),
         body: Center(
           child: Container(
             height: height * 0.75,
@@ -65,15 +64,13 @@ class _LoginState extends State<Login> {
                 elevation: 10,
                 color: Colors.white,
                 child: Form(
-                  autovalidate: true,
                   key: formkey,
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Image.asset("assets/rtt.png"),
                       ),
-
                       Text(
                         "Log In",
                         style: GoogleFonts.openSans(
@@ -81,11 +78,11 @@ class _LoginState extends State<Login> {
                             fontWeight: FontWeight.w700,
                             color: Colors.black),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 39),
+                        padding: const EdgeInsets.symmetric(horizontal: 39),
                         child: textformfield(
                           usernameController,
                           'Enter username',
@@ -95,18 +92,18 @@ class _LoginState extends State<Login> {
                           (value) {
                             Pattern pattern =
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                            RegExp regex = new RegExp(pattern as String);
+                            RegExp regex = RegExp(pattern as String);
                             return (!regex.hasMatch(value!))
                                 ? "Please Enter Valid Email"
                                 : null;
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 39),
+                        padding: const EdgeInsets.symmetric(horizontal: 39),
                         child: textformfield(
                           passwordController,
                           'Enter password',
@@ -120,13 +117,13 @@ class _LoginState extends State<Login> {
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             "Don't have an account? ",
                             style: TextStyle(color: Colors.grey),
                           ),
@@ -176,7 +173,7 @@ class _LoginState extends State<Login> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
 
@@ -198,11 +195,11 @@ class _LoginState extends State<Login> {
                           });
                         },
                         textColor: Colors.white,
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w600),
                       ),
 
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                     ],
