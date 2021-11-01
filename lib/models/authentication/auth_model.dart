@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class AuthModel {
   String? uid;
@@ -12,7 +13,7 @@ class AuthModel {
       {this.uid, this.firstName, this.lastName, this.email, this.imageUrl, this.createdAt});
 
   AuthModel.fromDocumentSnapshot(DocumentSnapshot doc) {
-    print(doc.data());
+    debugPrint(doc.data().toString());
     uid = doc.id;
     firstName = doc['firstName'];
     lastName = doc['lastName'];
