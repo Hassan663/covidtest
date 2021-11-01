@@ -6,11 +6,10 @@ import 'package:get/get.dart';
 import 'package:rrt_client_web_app/constants/custom_snackbar.dart';
 import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/constants/utils/auth_exception_handler.dart';
+import 'package:rrt_client_web_app/controllers/service/database.dart';
 import 'package:rrt_client_web_app/models/authentication/auth_model.dart';
 
 class AuthController extends GetxController {
-  static AuthController instance = Get.find();
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final firebaseUser = FirebaseAuth.instance.currentUser.obs;
   var currentUser = AuthModel().obs;
@@ -79,7 +78,7 @@ class AuthController extends GetxController {
         currentUser.value = _user;
 
         // TODO :: LOAD USER INFO FROM FIRESTORE COLLECTION
-
+        currentUser.value = await Database().getUser(_authResult.user!.uid);
 
       } else {
         _status = AuthResultStatus.undefined;

@@ -4,6 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:resize/resize.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:rrt_client_web_app/constants/custom_snackbar.dart';
+import 'package:rrt_client_web_app/constants/rrt_colors.dart';
+import 'package:rrt_client_web_app/constants/utils/auth_exception_handler.dart';
+import 'package:rrt_client_web_app/controllers/authentication/auth_controller.dart';
 import 'package:rrt_client_web_app/views/rrt_Screens/register_account.dart';
 import 'package:rrt_client_web_app/views/rrt_Screens/rrt_forgot_password_screen.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
@@ -18,6 +22,28 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  final authController = Get.find<AuthController>();
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void tryLogin() async {
+    //Login user on auth request
+    final status =
+        await authController.loginUser(usernameController.text.trim(), passwordController.text);
+    if (status == AuthResultStatus.successful) {
+      CustomSnackBar.showSnackBar(
+          title: "Login Successful",
+          message: '',
+          backgroundColor: snackBarSuccess);
+      Get.off(HomePage());
+    } else {
+      final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
+      CustomSnackBar.showSnackBar(
+          title: errorMsg, message: '', backgroundColor: snackBarError);
+    }
+  }
+
+
   void validate() {
     if (formkey.currentState!.validate()) {
       debugPrint("Validated");
@@ -26,8 +52,7 @@ class _LoginState extends State<Login> {
     }
   }
 
-  TextEditingController? usernameController = TextEditingController();
-  TextEditingController? passwordController = TextEditingController();
+
 
   late String _passwordError;
   bool validateAndSave() {
@@ -43,7 +68,7 @@ class _LoginState extends State<Login> {
   _validateAndSubmitSignIn(context) async {
     if (validateAndSave()) {
     } else {
-      debugPrint("Please fill all filds".toUpperCase());
+      debugPrint("Please fill all fields".toUpperCase());
     }
   }
 
@@ -185,13 +210,13 @@ class _LoginState extends State<Login> {
                         width: width * 0.2,
                         onPressed: () {
                           setState(() {
-                            if (usernameController!.text.endsWith(".com") ==
+                            if (usernameController.text.endsWith(".com") ==
                                     false ||
-                                passwordController!.text.length < 1) {
+                                passwordController.text.isEmpty) {
                               _passwordError = "This field is required*";
-                              print("ok");
-                            } else
-                              Get.to(HomePage());
+                            } else{
+                              tryLogin();
+                            }
                           });
                         },
                         textColor: Colors.white,
