@@ -9,3 +9,6 @@ const fLabelTextColor = Color(0xFF5FA4A4);
 const fContainerColor = Color(0xFF4F8484);
 const fButtonColor = Color(0xFFF08079);
 const soonButtonColor = Colors.yellowAccent;
+
+const snackBarError =  Colors.red;
+const snackBarSuccess =  Colors.green;

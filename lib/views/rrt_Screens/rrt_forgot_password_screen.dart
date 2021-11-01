@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import 'package:rrt_client_web_app/rrt_Screens/home_screen.dart';
-import 'package:rrt_client_web_app/rrt_Screens/login.dart';
-import 'package:rrt_client_web_app/rrt_Screens/user_billing_information.dart';
-import 'package:rrt_client_web_app/rrt_widgets/button.dart';
-import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
-import 'package:rrt_client_web_app/rrt_widgets/textfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
+
+import 'home_screen.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override

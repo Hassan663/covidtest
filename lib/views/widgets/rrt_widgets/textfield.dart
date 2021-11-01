@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:rrt_client_web_app/rrt_widgets/rrt_colors.dart';
+import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 
 Widget textformfield(
   TextEditingController? _controller,

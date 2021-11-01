@@ -1,15 +1,15 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
-import 'package:rrt_client_web_app/rrt_widgets/capture_picture.dart';
-import 'package:rrt_client_web_app/rrt_widgets/change_password.dart';
-import 'package:rrt_client_web_app/rrt_widgets/help.dart';
-import 'package:rrt_client_web_app/rrt_widgets/home_dashboard.dart';
-import 'package:rrt_client_web_app/rrt_widgets/results.dart';
-import 'package:rrt_client_web_app/rrt_widgets/rrt_colors.dart';
-import 'package:rrt_client_web_app/rrt_Screens/schedule_appointment.dart';
-import 'package:rrt_client_web_app/rrt_widgets/update_account.dart';
-import 'package:rrt_client_web_app/rrt_widgets/upload_document.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rrt_client_web_app/views/rrt_Screens/schedule_appointment.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/capture_picture.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/change_password.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/help.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/home_dashboard.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/results.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/update_account.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/upload_document.dart';
 
 class HomePage extends StatefulWidget {
   // HomePage({Key? key,}) : super(key: key);

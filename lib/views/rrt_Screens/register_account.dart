@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rrt_client_web_app/rrt_Screens/login.dart';
-import 'package:rrt_client_web_app/rrt_Screens/rrt_forgot_password_screen.dart';
-import 'package:rrt_client_web_app/rrt_widgets/button.dart';
-import 'package:rrt_client_web_app/rrt_widgets/rrt_colors.dart';
-import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
-import 'package:rrt_client_web_app/rrt_widgets/textfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rrt_client_web_app/constants/rrt_colors.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
+import 'login.dart';
 import 'user_billing_information.dart';
 
 class RegisterAccount extends StatefulWidget {

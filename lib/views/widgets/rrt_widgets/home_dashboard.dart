@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:rrt_client_web_app/rrt_widgets/header.dart';
-import 'package:rrt_client_web_app/rrt_widgets/rrt_colors.dart';
-import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
+import 'package:rrt_client_web_app/constants/rrt_colors.dart';
+import 'package:rrt_client_web_app/constants/rrt_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'header.dart';
 
 class HomeDashboard extends StatelessWidget {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
+import 'package:rrt_client_web_app/constants/rrt_sizes.dart';
 
 class Help extends StatelessWidget {
   @override

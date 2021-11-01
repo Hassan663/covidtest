@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rrt_client_web_app/rrt_widgets/header.dart';
-import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
+import 'package:rrt_client_web_app/constants/rrt_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/header.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';

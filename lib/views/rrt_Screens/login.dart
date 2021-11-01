@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resize/resize.dart';
-import 'package:rrt_client_web_app/rrt_Screens/home_screen.dart';
-import 'package:rrt_client_web_app/rrt_Screens/register_account.dart';
-import 'package:rrt_client_web_app/rrt_Screens/rrt_forgot_password_screen.dart';
-import 'package:rrt_client_web_app/rrt_widgets/button.dart';
-import 'package:rrt_client_web_app/rrt_widgets/rrt_sizes.dart';
-import 'package:rrt_client_web_app/rrt_widgets/textfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:rrt_client_web_app/views/rrt_Screens/register_account.dart';
+import 'package:rrt_client_web_app/views/rrt_Screens/rrt_forgot_password_screen.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
+
+import 'home_screen.dart';
 
 class Login extends StatefulWidget {
   @override

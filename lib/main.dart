@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:rrt_client_web_app/rrt_Screens/home_screen.dart';
-import 'package:rrt_client_web_app/rrt_Screens/register_account.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rrt_client_web_app/rrt_Screens/rrt_forgot_password_screen.dart';
-import 'package:rrt_client_web_app/rrt_Screens/user_billing_information.dart';
-import 'package:rrt_client_web_app/rrt_widgets/home_dashboard.dart';
-import 'rrt_Screens/login.dart';
+import 'package:get/get.dart';
+import 'package:rrt_client_web_app/views/rrt_Screens/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         home: Login(),
       ),
-      designSize: Size(1920, 1080),
+      designSize: const Size(1920, 1080),
     );
   }
 }
