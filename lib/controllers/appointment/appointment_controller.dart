@@ -2,10 +2,13 @@ import 'package:get/get.dart';
 import 'package:rrt_client_web_app/controllers/service/appointment_database.dart';
 import 'package:rrt_client_web_app/models/appointment/available_appointments.dart';
 import 'package:rrt_client_web_app/models/appointment/schedule.dart';
+import 'package:rrt_client_web_app/models/appointment/slots.dart';
 
 
 class AppointmentController extends GetxController {
   var availableAppointments = <AvailableAppointments>[].obs;
+  var chipList = <Slots>[].obs;
+  var selectedChoice = Slots().obs;
 
   @override
   void onInit() {

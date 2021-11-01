@@ -9,7 +9,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'header.dart';
 
-class HomeDashboard extends StatelessWidget {
+class HomeDashboard extends StatefulWidget {
+  @override
+  State<HomeDashboard> createState() => _HomeDashboardState();
+}
+
+class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -389,4 +394,8 @@ class HomeDashboard extends StatelessWidget {
       ),
     ));
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
