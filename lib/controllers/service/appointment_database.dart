@@ -30,8 +30,11 @@ class AppointmentDatabase{
       Timestamp currentTime = Timestamp.now();
       await _fireStore.collection('pending-request').doc().set({
         "clientId": uid,
-        "appointment": app.toJson(),
-        "createdAt": Timestamp.now(),
+        "appId" : app.uid,
+        "nurseId" : app.nurseId,
+        "schedule" : app.schedule!.toJson(),
+        "appCreatedAt" : app.createdAt,
+        "createdAt": currentTime,
         "status" : "Pending"
       });
       generateRequestInClientCollection(app, currentTime, uid);
@@ -56,8 +59,11 @@ class AppointmentDatabase{
           .doc()
           .set({
         "clientId": uid,
-        "appointment": app.toJson(),
-        "createdAt": Timestamp.now(),
+        "appId" : app.uid,
+        "nurseId" : app.nurseId,
+        "schedule" : app.schedule!.toJson(),
+        "appCreatedAt" : app.createdAt,
+        "createdAt": currentTime,
         "status" : "Pending"
       });
       return true;
