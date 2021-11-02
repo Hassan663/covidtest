@@ -11,7 +11,7 @@ import 'package:rrt_client_web_app/models/appointment/schedule.dart';
 
 class AppointmentDatabase{
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-
+  final authController = Get.find<AuthController>();
   Stream<List<AvailableAppointments>> getAllPost() {
     return _fireStore
         .collection('available-appointments')
@@ -35,7 +35,9 @@ class AppointmentDatabase{
         "schedule" : app.schedule!.toJson(),
         "appCreatedAt" : app.createdAt,
         "createdAt": currentTime,
-        "status" : "Pending"
+        "status" : "Pending",
+        "firstName" : authController.currentUser.value.firstName,
+        "lastName" : authController.currentUser.value.lastName,
       });
       generateRequestInClientCollection(app, currentTime, uid);
       CustomSnackBar.showSnackBar(
@@ -64,7 +66,9 @@ class AppointmentDatabase{
         "schedule" : app.schedule!.toJson(),
         "appCreatedAt" : app.createdAt,
         "createdAt": currentTime,
-        "status" : "Pending"
+        "status" : "Pending",
+        "firstName" : authController.currentUser.value.firstName,
+        "lastName" : authController.currentUser.value.lastName,
       });
       return true;
     } catch (e) {
