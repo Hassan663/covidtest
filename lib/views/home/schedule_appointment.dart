@@ -7,9 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/constants/rrt_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rrt_client_web_app/constants/rtt_textstyle.dart';
 import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
 import 'package:rrt_client_web_app/models/appointment/slots.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/cache.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/header.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,13 +23,13 @@ class ScheduleAppointment extends StatefulWidget {
   _ScheduleAppointmentState createState() => _ScheduleAppointmentState();
 }
 
-class _ScheduleAppointmentState extends State<ScheduleAppointment> with AutomaticKeepAliveClientMixin {
+class _ScheduleAppointmentState extends State<ScheduleAppointment>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     final appointmentController = Get.find<AppointmentController>();
 
     double width = MediaQuery.of(context).size.width;
-
 
     DateTime? selectedDay;
     return SafeArea(
@@ -73,7 +75,8 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                     Container(
                       height: MediaQuery.of(context).size.height * 0.30,
                       width: MediaQuery.of(context).size.width,
-                      child: Obx(() => GridView.builder(
+                      child: Obx(
+                        () => GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 4,
@@ -84,13 +87,14 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                             itemCount: appointmentController
                                 .availableAppointments.length,
                             itemBuilder: (BuildContext ctx, index) {
-                              DateTime date = DateTime.fromMillisecondsSinceEpoch(
-                                  appointmentController
-                                          .availableAppointments[index]
-                                          .schedule!
-                                          .date!
-                                          .seconds *
-                                      1000);
+                              DateTime date =
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                      appointmentController
+                                              .availableAppointments[index]
+                                              .schedule!
+                                              .date!
+                                              .seconds *
+                                          1000);
                               return Padding(
                                 padding: EdgeInsets.all(8.0.sp),
                                 child: SingleChildScrollView(
@@ -99,7 +103,8 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                                     // margin: EdgeInsets.only(top: 18, right: 14, left: 14),
                                     decoration: BoxDecoration(
                                         color: fLabelTextColor,
-                                        borderRadius: BorderRadius.circular(15)),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
                                     child: Column(
                                       children: [
                                         Padding(
@@ -135,7 +140,9 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(
-                                              left: 10.w, right: 10.w, top: 20.h),
+                                              left: 10.w,
+                                              right: 10.w,
+                                              top: 20.h),
                                           height: 60.h,
                                           decoration: BoxDecoration(
                                               color: fContainerColor,
@@ -154,11 +161,14 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                                                 width: 150,
                                                 child: Text(
                                                   "${date.day}-${date.month}-${date.year}",
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: GoogleFonts.inter(
                                                       fontSize: 15.sp,
-                                                      fontStyle: FontStyle.normal,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       color: Colors.white),
                                                 ),
                                               )
@@ -167,7 +177,9 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              left: 10.w, right: 10.w, top: 30.h),
+                                              left: 10.w,
+                                              right: 10.w,
+                                              top: 30.h),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -329,14 +341,30 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                                                     //             // fit: BoxFit.cover))
                                                     //           ));
                                                     //     });
-                                                    print(appointmentController.availableAppointments[index].schedule?.slots!.toList());
+                                                    print(appointmentController
+                                                        .availableAppointments[
+                                                            index]
+                                                        .schedule
+                                                        ?.slots!
+                                                        .toList());
                                                     setState(() {
-                                                      appointmentController.chipList.value = appointmentController.availableAppointments[index].schedule!.slots!;
-                                                      appointmentController.selectedApp.value = appointmentController.availableAppointments[index];
+                                                      appointmentController
+                                                              .chipList.value =
+                                                          appointmentController
+                                                              .availableAppointments[
+                                                                  index]
+                                                              .schedule!
+                                                              .slots!;
+                                                      appointmentController
+                                                              .selectedApp
+                                                              .value =
+                                                          appointmentController
+                                                                  .availableAppointments[
+                                                              index];
                                                     });
 
-                                                    print(appointmentController.chipList.length);
-
+                                                    print(appointmentController
+                                                        .chipList.length);
                                                   },
                                                   child: Text(
                                                     "Check Slots",
@@ -351,8 +379,8 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                                                         color: Colors.white),
                                                   ),
                                                   style: ElevatedButton.styleFrom(
-                                                      fixedSize:
-                                                          Size(130.w, 30.h),
+                                                      fixedSize: Size(
+                                                          130.w, 30.h),
                                                       primary: fButtonColor,
                                                       shape:
                                                           RoundedRectangleBorder(
@@ -375,8 +403,8 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                                                         color: Colors.white),
                                                   ),
                                                   style: ElevatedButton.styleFrom(
-                                                      fixedSize:
-                                                          Size(130.w, 30.h),
+                                                      fixedSize: Size(
+                                                          130.w, 30.h),
                                                       primary: fButtonColor,
                                                       shape:
                                                           RoundedRectangleBorder(
@@ -489,27 +517,32 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                               )),
                           height: MediaQuery.of(context).size.height * 0.57,
                           width: width * 0.36,
-                          child: Padding(
-                            padding: EdgeInsets.all(30.0.sp),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Text(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 30),
+                                  child: Text(
                                     "Select Time Slot",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w700),
                                   ),
-                                  Container(
-                                      child: Wrap(
-                                    //spacing: 5.0.sp,
-                                    //runSpacing: 15.0.sp,
-                                    children: <Widget>[
-                                      choiceChipWidget(appointmentController.chipList),
-                                    ],
-                                  )),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  height: 30.h,
+                                ),
+                                Container(
+                                    child: Wrap(
+                                  //spacing: 5.0.sp,
+                                  //runSpacing: 15.0.sp,
+                                  children: <Widget>[
+                                    choiceChipWidget(
+                                        appointmentController.chipList),
+                                  ],
+                                )),
+                              ],
                             ),
                           ),
                         )
@@ -519,21 +552,87 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
                       height: 30,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: 10.h),
-                      child: CircularButtons(
-                        backgroundColor: const Color(0xfffc6359),
-                        borderColor: const Color(0xfffc6359),
-                        text: "Generate Request",
-                        height: 40,
-                        width: width * 0.1,
-                        onPressed: () {
-                          appointmentController.createRequestInDatabase();
-                        },
-                        textColor: Colors.white,
-                        textStyle: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w600),
-                      ),
-                    ),
+                        padding: EdgeInsets.only(bottom: 10.h),
+                        child: CircularButtons(
+                            backgroundColor: const Color(0xfffc6359),
+                            borderColor: const Color(0xfffc6359),
+                            text: "Set Appointment",
+                            height: 50,
+                            textColor: Colors.white,
+                            textStyle: WhiteText,
+                            width: width * 0.3,
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20.0))),
+                                        backgroundColor: Colors.white,
+                                        content: Container(
+                                          height: 200,
+                                          width: 400,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Do you want to book this time slot',
+                                                    style: TextStyle(
+                                                        color: fButtonColor,
+                                                        fontSize: 25,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  CircularButtons(
+                                                    backgroundColor:
+                                                        const Color(0xff4F8484),
+                                                    borderColor:
+                                                        const Color(0xff4F8484),
+                                                    text: "Yes",
+                                                    height: 50,
+                                                    width: width * 0.1,
+                                                    textColor: Colors.white,
+                                                    textStyle: WhiteText,
+                                                    onPressed: () {
+                                                      appointmentController
+                                                          .createRequestInDatabase();
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                  CircularButtons(
+                                                    backgroundColor:
+                                                        const Color(0xfffc6359),
+                                                    borderColor:
+                                                        const Color(0xfffc6359),
+                                                    text: "No",
+                                                    height: 50,
+                                                    width: width * 0.1,
+                                                    textColor: Colors.white,
+                                                    textStyle: WhiteText,
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ));
+                                  });
+                            }))
                   ],
                 ),
               ),
@@ -541,7 +640,6 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment> with Automati
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
 
@@ -555,32 +653,35 @@ class choiceChipWidget extends StatefulWidget {
 }
 
 class _choiceChipWidgetState extends State<choiceChipWidget> {
-
   final appointmentController = Get.find<AppointmentController>();
 
   _buildChoiceList() {
     List<Widget> choices = [];
     widget.reportList.forEach((item) {
       choices.add(Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(vertical: 20.h),
         child: FilterChip(
           showCheckmark: false,
           //inside chip padding
-          labelPadding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-          padding: EdgeInsets.symmetric(horizontal: 32.w),
-          label: SingleChildScrollView(child: Text("${item.startSlot} to ${item.endSlot}")),
+          labelPadding: EdgeInsets.symmetric(horizontal: 180.w, vertical: 15.h),
+          padding: EdgeInsets.symmetric(horizontal: 35.h),
+          label: SingleChildScrollView(
+              child: Text("${item.startSlot} to ${item.endSlot}")),
           labelStyle: TextStyle(
-              color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold),
+              color: Color(0xff3A3A3A),
+              fontSize: 20.0,
+              fontWeight: FontWeight.w600),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(15.0),
           ),
           backgroundColor: Color(0xffC4C4C4),
           selectedColor: Colors.red,
           selected: appointmentController.selectedChoice.value == item,
           onSelected: (selected) {
             setState(() {
-              //selected == true;
               appointmentController.selectedChoice.value = item;
+
+              //selected == true;
             });
           },
         ),
