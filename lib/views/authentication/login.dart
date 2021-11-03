@@ -9,6 +9,7 @@ import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/constants/utils/auth_exception_handler.dart';
 import 'package:rrt_client_web_app/controllers/authentication/auth_controller.dart';
 import 'package:rrt_client_web_app/views/authentication/register_account.dart';
+import 'package:rrt_client_web_app/views/authentication/reset_password_link.dart';
 import 'package:rrt_client_web_app/views/authentication/rrt_forgot_password_screen.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
@@ -182,7 +183,7 @@ class _LoginState extends State<Login> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Get.to(ForgotPassword());
+                              Get.to(ResetPasswordLink());
                             },
                             child: Container(
                               padding:

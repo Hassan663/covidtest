@@ -5,8 +5,13 @@ import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 
 final TitleText = GoogleFonts.inter(
     fontSize: 30, fontWeight: FontWeight.w700, color: Colors.black);
+    final GreyText = GoogleFonts.inter(
+    fontSize: 15, fontWeight: FontWeight.w500, color: Color(0xff838383));
 final WhiteTitleText = GoogleFonts.inter(
-    fontSize: 30, fontWeight: FontWeight.w700, color: Colors.white);
+    fontSize: 30, fontWeight: FontWeight.w600, color: Colors.white);
+
+final WhiteTitle1Text = GoogleFonts.inter(
+    fontSize: 25, fontWeight: FontWeight.w500, color: Colors.white);
 
 final RedText = GoogleFonts.inter(
   color: Color(0xfffc6359),

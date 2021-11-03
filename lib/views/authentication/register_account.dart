@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,8 +13,11 @@ import 'package:rrt_client_web_app/controllers/authentication/auth_controller.da
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
 import '../home/home_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'login.dart';
 import 'user_billing_information.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterAccount extends StatefulWidget {
   @override
@@ -42,8 +48,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
   void tryRegister() async {
     //Login user on auth request
-    final status =
-    await authController.createUser(
+    final status = await authController.createUser(
       emailController.text.trim(),
       passwordController.text,
       fNameController.text,
@@ -61,6 +66,8 @@ class _RegisterAccountState extends State<RegisterAccount> {
           title: errorMsg, message: '', backgroundColor: snackBarError);
     }
   }
+
+   
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +100,13 @@ class _RegisterAccountState extends State<RegisterAccount> {
                         SizedBox(
                           height: 60.h,
                         ),
+                        Center(
+                          child: CircleAvatar(
+                            maxRadius: 60.sp,
+                            backgroundColor: Colors.grey,
+                            child: Icon(Icons.camera, color: Colors.black),
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 39.w),
                           child: textformfield(
@@ -101,7 +115,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'First Name',
                             false,
                             TextInputType.name,
-                                (value) {
+                            (value) {
                               return (value!.isEmpty)
                                   ? "First Name can't be Empty"
                                   : null;
@@ -119,7 +133,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Last Name',
                             false,
                             TextInputType.name,
-                                (value) {
+                            (value) {
                               return (value!.isEmpty)
                                   ? "Last Name can't be Empity"
                                   : null;
@@ -137,7 +151,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Email',
                             false,
                             TextInputType.emailAddress,
-                                (value) {
+                            (value) {
                               Pattern pattern =
                                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                               RegExp regex = RegExp(pattern as String);
@@ -158,7 +172,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Password',
                             true,
                             TextInputType.name,
-                                (value) {
+                            (value) {
                               return (value!.isEmpty)
                                   ? "Password can't be Empity"
                                   : null;
@@ -176,7 +190,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Confirm Password',
                             true,
                             TextInputType.name,
-                                (value) {
+                            (value) {
                               if (value.isEmpty) {
                                 return 'Confirm Password cannot be Empity';
                               }
@@ -185,6 +199,69 @@ class _RegisterAccountState extends State<RegisterAccount> {
                               }
                               return null;
                             },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30.h,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CircularButtons(
+                                  backgroundColor: const Color(0xff4F8484),
+                                  textColor: Colors.white,
+                                  textStyle: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500),
+                                  borderColor: const Color(0xff4F8484),
+                                  text: "Upload License",
+                                  height: 40,
+                                  width: width * 0.15,
+                                  onPressed: () async {
+                                    final result =
+                                        await FilePicker.platform.pickFiles();
+                                    if (result != null) {
+                                      Uint8List? file =
+                                          result.files.first.bytes;
+                                      String fileName = result.files.first.name;
+
+                                      UploadTask task = FirebaseStorage.instance
+                                          .ref()
+                                          .child("files/$fileName")
+                                          .putData(file!);
+
+                                      task.snapshotEvents.listen((event) {
+                                        setState(() {
+                                          var progress = ((event
+                                                          .bytesTransferred
+                                                          .toDouble() /
+                                                      event.totalBytes
+                                                          .toDouble()) *
+                                                  100)
+                                              .roundToDouble();
+
+                                          print(progress);
+                                        });
+                                      });
+                                    }
+                                  }),
+                              CircularButtons(
+                                backgroundColor: const Color(0xff4F8484),
+                                borderColor: const Color(0xff4F8484),
+                                text: "Upload Passport",
+                                height: 40,
+                                width: width * 0.15,
+                                onPressed: () async {
+                                  final passport =
+                                      await FilePicker.platform.pickFiles();
+                                },
+                                textColor: Colors.white,
+                                textStyle: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.w500),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(
