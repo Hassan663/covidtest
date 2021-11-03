@@ -1,10 +1,6 @@
-import 'dart:html';
-import 'dart:typed_data';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rrt_client_web_app/constants/custom_snackbar.dart';
 import 'package:rrt_client_web_app/constants/rrt_colors.dart';
@@ -13,9 +9,9 @@ import 'package:rrt_client_web_app/constants/utils/auth_exception_handler.dart';
 import 'package:rrt_client_web_app/controllers/authentication/auth_controller.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
-
-import 'package:firebase_storage/firebase_storage.dart';
+import '../home/home_screen.dart';
 import 'login.dart';
+import 'user_billing_information.dart';
 
 class RegisterAccount extends StatefulWidget {
   @override
@@ -31,6 +27,8 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
   final authController = Get.find<AuthController>();
 
+  late String _passwordError;
+
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   bool validateAndSaveUser() {
     final form = formkey.currentState;
@@ -44,7 +42,8 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
   void tryRegister() async {
     //Login user on auth request
-    final status = await authController.createUser(
+    final status =
+    await authController.createUser(
       emailController.text.trim(),
       passwordController.text,
       fNameController.text,
@@ -94,15 +93,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
                         SizedBox(
                           height: 60.h,
                         ),
-                        Center(
-                          child: InkWell(
-                            child: CircleAvatar(
-                              maxRadius: 60.sp,
-                              backgroundColor: Colors.grey,
-                              child: Icon(Icons.camera, color: Colors.black),
-                            ),
-                          ),
-                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 39.w),
                           child: textformfield(
@@ -111,7 +101,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'First Name',
                             false,
                             TextInputType.name,
-                            (value) {
+                                (value) {
                               return (value!.isEmpty)
                                   ? "First Name can't be Empty"
                                   : null;
@@ -129,7 +119,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Last Name',
                             false,
                             TextInputType.name,
-                            (value) {
+                                (value) {
                               return (value!.isEmpty)
                                   ? "Last Name can't be Empity"
                                   : null;
@@ -147,7 +137,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Email',
                             false,
                             TextInputType.emailAddress,
-                            (value) {
+                                (value) {
                               Pattern pattern =
                                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                               RegExp regex = RegExp(pattern as String);
@@ -168,7 +158,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Password',
                             true,
                             TextInputType.name,
-                            (value) {
+                                (value) {
                               return (value!.isEmpty)
                                   ? "Password can't be Empity"
                                   : null;
@@ -186,7 +176,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Confirm Password',
                             true,
                             TextInputType.name,
-                            (value) {
+                                (value) {
                               if (value.isEmpty) {
                                 return 'Confirm Password cannot be Empity';
                               }
@@ -195,69 +185,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
                               }
                               return null;
                             },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30.h,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 40.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CircularButtons(
-                                  backgroundColor: const Color(0xff4F8484),
-                                  textColor: Colors.white,
-                                  textStyle: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500),
-                                  borderColor: const Color(0xff4F8484),
-                                  text: "Upload License",
-                                  height: 40,
-                                  width: width * 0.15,
-                                  onPressed: () async {
-                                    final result =
-                                        await FilePicker.platform.pickFiles();
-                                    if (result != null) {
-                                      Uint8List? file =
-                                          result.files.first.bytes;
-                                      String fileName = result.files.first.name;
-
-                                      UploadTask task = FirebaseStorage.instance
-                                          .ref()
-                                          .child("files/$fileName")
-                                          .putData(file!);
-
-                                      task.snapshotEvents.listen((event) {
-                                        setState(() {
-                                          var progress = ((event
-                                                          .bytesTransferred
-                                                          .toDouble() /
-                                                      event.totalBytes
-                                                          .toDouble()) *
-                                                  100)
-                                              .roundToDouble();
-
-                                          print(progress);
-                                        });
-                                      });
-                                    }
-                                  }),
-                              CircularButtons(
-                                backgroundColor: const Color(0xff4F8484),
-                                borderColor: const Color(0xff4F8484),
-                                text: "Upload Passport",
-                                height: 40,
-                                width: width * 0.15,
-                                onPressed: () async {
-                                  final passport =
-                                      await FilePicker.platform.pickFiles();
-                                },
-                                textColor: Colors.white,
-                                textStyle: TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.w500),
-                              ),
-                            ],
                           ),
                         ),
                         SizedBox(
@@ -325,3 +252,52 @@ class _RegisterAccountState extends State<RegisterAccount> {
     );
   }
 }
+// InkWell(
+                      //   // onTap: () {
+                      //   //   Get.to(UserBillingInformation());
+                      //   // },
+                      //   onTap: () {
+                      //     if (fNameController!.text.length < 1 ||
+                      //         emailController!.text.endsWith(".com") == false ||
+                      //         passwordController!.text.length < 1 ||
+                      //         confirmpasswordController!.text.length < 1 ||
+                      //         lNameController!.text.length < 1) {
+                      //       _passwordError = "Enter atleast";
+                      //     } else
+                      //       Get.to(UserBillingInformation());
+                      //   },
+
+                      // child: Container(
+                      //   alignment: Alignment.center,
+                      //   width: MediaQuery.of(context).size.width * 0.2,
+                      //   padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      //   decoration: BoxDecoration(
+                      //       color: const Color(0xfffc6359),
+                      //       borderRadius: BorderRadius.circular(30.0)),
+                      //   child: const Text(
+                      //     'Next',
+                      //     style: TextStyle(color: Colors.white),
+                      //   ),
+                      // ),
+                      //),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Get.to(UserBillingInformation());
+                      //   },
+                      //   child: Padding(
+                      //     padding: EdgeInsets.symmetric(horizontal: 120.w),
+                      //     child: Container(
+                      //       alignment: Alignment.center,
+                      //       // height: 65.h,
+                      //       width: width,
+                      //       padding: EdgeInsets.symmetric(vertical: 15.0.h),
+                      //       decoration: BoxDecoration(
+                      //           color: Color(0xfffc6359),
+                      //           borderRadius: BorderRadius.circular(30.0.sp)),
+                      //       child: Text(
+                      //         'Next',
+                      //         style: TextStyle(color: Colors.white),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // )

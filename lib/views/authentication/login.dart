@@ -239,28 +239,3 @@ class _LoginState extends State<Login> {
     );
   }
 }
-// InkWell(
-                      //     onTap: () {
-                      //       setState(() {
-                      //         if (usernameController!.text.endsWith(".com") ==
-                      //                 false ||
-                      //             passwordController!.text.length < 1) {
-                      //           _passwordError = "This field is required*";
-                      //           print("ok");
-                      //         } else
-                      //           Get.to(HomePage());
-                      //       });
-                      //     },
-                      // Container(
-                      //   alignment: Alignment.center,
-                      //   width: MediaQuery.of(context).size.width * 0.2,
-                      //   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                      //   decoration: BoxDecoration(
-                      //       color: const Color(0xfffc6359),
-                      //       borderRadius: BorderRadius.circular(30.0)),
-                      //   child: const Text(
-                      //     'Log In',
-                      //     style: TextStyle(color: Colors.white),
-                      //   ),
-                      // ),
-                      //),
