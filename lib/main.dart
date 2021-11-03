@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home:RegisterAccount(),
-        //home: AuthDecider(),
+        //home:RegisterAccount(),
+        home: AuthDecider(),
       ),
       designSize: const Size(1920, 1080),
     );

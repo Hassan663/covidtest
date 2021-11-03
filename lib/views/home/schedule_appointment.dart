@@ -640,7 +640,6 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
 
@@ -664,8 +663,8 @@ class _choiceChipWidgetState extends State<choiceChipWidget> {
         child: FilterChip(
           showCheckmark: false,
           //inside chip padding
-          labelPadding: EdgeInsets.symmetric(horizontal: 200.w, vertical: 15.h),
-          // padding: EdgeInsets.symmetric(vertical: 15.h),
+          labelPadding: EdgeInsets.symmetric(horizontal: 180.w, vertical: 15.h),
+          padding: EdgeInsets.symmetric(horizontal: 35.h),
           label: SingleChildScrollView(
               child: Text("${item.startSlot} to ${item.endSlot}")),
           labelStyle: TextStyle(

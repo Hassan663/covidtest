@@ -1,9 +1,10 @@
+import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rrt_client_web_app/constants/custom_snackbar.dart';
 import 'package:rrt_client_web_app/constants/rrt_colors.dart';
@@ -12,12 +13,9 @@ import 'package:rrt_client_web_app/constants/utils/auth_exception_handler.dart';
 import 'package:rrt_client_web_app/controllers/authentication/auth_controller.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
-import '../home/home_screen.dart';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'login.dart';
-import 'user_billing_information.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-import 'package:image_picker/image_picker.dart';
 
 class RegisterAccount extends StatefulWidget {
   @override
@@ -32,8 +30,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
   final confirmpasswordController = TextEditingController();
 
   final authController = Get.find<AuthController>();
-
-  late String _passwordError;
 
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   bool validateAndSaveUser() {
@@ -67,8 +63,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
     }
   }
 
-   
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -101,10 +95,12 @@ class _RegisterAccountState extends State<RegisterAccount> {
                           height: 60.h,
                         ),
                         Center(
-                          child: CircleAvatar(
-                            maxRadius: 60.sp,
-                            backgroundColor: Colors.grey,
-                            child: Icon(Icons.camera, color: Colors.black),
+                          child: InkWell(
+                            child: CircleAvatar(
+                              maxRadius: 60.sp,
+                              backgroundColor: Colors.grey,
+                              child: Icon(Icons.camera, color: Colors.black),
+                            ),
                           ),
                         ),
                         Padding(
@@ -329,52 +325,3 @@ class _RegisterAccountState extends State<RegisterAccount> {
     );
   }
 }
-// InkWell(
-                      //   // onTap: () {
-                      //   //   Get.to(UserBillingInformation());
-                      //   // },
-                      //   onTap: () {
-                      //     if (fNameController!.text.length < 1 ||
-                      //         emailController!.text.endsWith(".com") == false ||
-                      //         passwordController!.text.length < 1 ||
-                      //         confirmpasswordController!.text.length < 1 ||
-                      //         lNameController!.text.length < 1) {
-                      //       _passwordError = "Enter atleast";
-                      //     } else
-                      //       Get.to(UserBillingInformation());
-                      //   },
-
-                      // child: Container(
-                      //   alignment: Alignment.center,
-                      //   width: MediaQuery.of(context).size.width * 0.2,
-                      //   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                      //   decoration: BoxDecoration(
-                      //       color: const Color(0xfffc6359),
-                      //       borderRadius: BorderRadius.circular(30.0)),
-                      //   child: const Text(
-                      //     'Next',
-                      //     style: TextStyle(color: Colors.white),
-                      //   ),
-                      // ),
-                      //),
-                      // InkWell(
-                      //   onTap: () {
-                      //     Get.to(UserBillingInformation());
-                      //   },
-                      //   child: Padding(
-                      //     padding: EdgeInsets.symmetric(horizontal: 120.w),
-                      //     child: Container(
-                      //       alignment: Alignment.center,
-                      //       // height: 65.h,
-                      //       width: width,
-                      //       padding: EdgeInsets.symmetric(vertical: 15.0.h),
-                      //       decoration: BoxDecoration(
-                      //           color: Color(0xfffc6359),
-                      //           borderRadius: BorderRadius.circular(30.0.sp)),
-                      //       child: Text(
-                      //         'Next',
-                      //         style: TextStyle(color: Colors.white),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // )
