@@ -1,5 +1,6 @@
 {
   "firestore": {
+    "site": "covidtest-37a4b",
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
