@@ -9,6 +9,7 @@ import 'package:rrt_client_web_app/models/appointment/slots.dart';
 
 class AppointmentController extends GetxController {
   var availableAppointments = <AvailableAppointments>[].obs;
+
   var chipList = <Slots>[].obs;
   var selectedChoice = Slots().obs;
   var selectedApp = AvailableAppointments().obs;

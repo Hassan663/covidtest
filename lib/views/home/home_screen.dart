@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
+import 'package:rrt_client_web_app/controllers/appointment/booked_appointments/booked_appointment.dart';
 import 'package:rrt_client_web_app/views/home/main_screen.dart';
 import 'package:rrt_client_web_app/views/home/schedule_appointment.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/capture_picture.dart';
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   PageController page = PageController(keepPage: true);
 
   final appointmentController = Get.put(AppointmentController());
+  final bookedAppointmentController = Get.put(BookAppointmentController());
 
   @override
   Widget build(BuildContext context) {
