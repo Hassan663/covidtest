@@ -4,9 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rrt_client_web_app/controllers/authentication/auth_controller.dart';
 import 'package:rrt_client_web_app/views/authentication/auth_decider.dart';
-import 'package:rrt_client_web_app/views/authentication/login.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Get.put(AuthController());
