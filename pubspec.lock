@@ -462,6 +462,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
+<<<<<<< HEAD
   text_input_mask_formatter:
     dependency: "direct main"
     description:
@@ -469,6 +470,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.3"
+=======
+>>>>>>> main
   typed_data:
     dependency: transitive
     description:

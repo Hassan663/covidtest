@@ -39,12 +39,30 @@ class _UpdateAccountState extends State<UpdateAccount> {
 
   @override
   void initState() {
-    selectedEvents = {};
+    // selectedEvents![selectedDay] = [Event(title: " _eventController.text")];
+    // selectedEvents!["2021-11-17 00:00:00.000Z"]!.add(Event(title: "Event"));
+    // selectedEvents![DateTime.now()]!.add(Event(title: "Event1"));
     super.initState();
   }
 
   List<Event> _getEventsfromDay(DateTime date) {
     return selectedEvents![date] ?? [];
+  }
+
+  void selectionDay() {
+    if (selectedEvents![selectedDay] != null) {
+      print(selectedDay.toString());
+      selectedEvents![selectedDay]!.add(
+        Event(title: "_eventController.text"),
+      );
+    } else {
+      selectedEvents![selectedDay] = [Event(title: " _eventController.text")];
+    }
+
+    //  Navigator.pop(context);
+    //  _eventController.clear();
+    setState(() {});
+    //  return;
   }
 
   @override
@@ -153,6 +171,7 @@ class _UpdateAccountState extends State<UpdateAccount> {
                   if (_eventController.text.isEmpty) {
                   } else {
                     if (selectedEvents![selectedDay] != null) {
+                      print(selectedDay.toString());
                       selectedEvents![selectedDay]!.add(
                         Event(title: _eventController.text),
                       );
