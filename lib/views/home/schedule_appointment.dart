@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/constants/rrt_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rrt_client_web_app/constants/rtt_textstyle.dart';
 import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
 import 'package:rrt_client_web_app/models/appointment/slots.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/header.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'dart:convert';
 
 class ScheduleAppointment extends StatefulWidget {
   @override
@@ -515,28 +511,32 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                               )),
                           height: MediaQuery.of(context).size.height * 0.57,
                           width: width * 0.36,
-                          child: Padding(
-                            padding: EdgeInsets.all(30.0.sp),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Text(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 30),
+                                  child: Text(
                                     "Select Time Slot",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w700),
                                   ),
-                                  Container(
-                                      child: Wrap(
-                                    //spacing: 5.0.sp,
-                                    //runSpacing: 15.0.sp,
-                                    children: <Widget>[
-                                      choiceChipWidget(
-                                          appointmentController.chipList),
-                                    ],
-                                  )),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  height: 30.h,
+                                ),
+                                Container(
+                                    child: Wrap(
+                                  //spacing: 5.0.sp,
+                                  //runSpacing: 15.0.sp,
+                                  children: <Widget>[
+                                    choiceChipWidget(
+                                        appointmentController.chipList),
+                                  ],
+                                )),
+                              ],
                             ),
                           ),
                         )
@@ -546,21 +546,87 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                       height: 30,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: 10.h),
-                      child: CircularButtons(
-                        backgroundColor: const Color(0xfffc6359),
-                        borderColor: const Color(0xfffc6359),
-                        text: "Generate Request",
-                        height: 40,
-                        width: width * 0.1,
-                        onPressed: () {
-                          appointmentController.createRequestInDatabase();
-                        },
-                        textColor: Colors.white,
-                        textStyle: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w600),
-                      ),
-                    ),
+                        padding: EdgeInsets.only(bottom: 10.h),
+                        child: CircularButtons(
+                            backgroundColor: const Color(0xfffc6359),
+                            borderColor: const Color(0xfffc6359),
+                            text: "Set Appointment",
+                            height: 50,
+                            textColor: Colors.white,
+                            textStyle: WhiteText,
+                            width: width * 0.3,
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20.0))),
+                                        backgroundColor: Colors.white,
+                                        content: Container(
+                                          height: 200,
+                                          width: 400,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Do you want to book this time slot',
+                                                    style: TextStyle(
+                                                        color: fButtonColor,
+                                                        fontSize: 25,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  CircularButtons(
+                                                    backgroundColor:
+                                                        const Color(0xff4F8484),
+                                                    borderColor:
+                                                        const Color(0xff4F8484),
+                                                    text: "Yes",
+                                                    height: 50,
+                                                    width: width * 0.1,
+                                                    textColor: Colors.white,
+                                                    textStyle: WhiteText,
+                                                    onPressed: () {
+                                                      appointmentController
+                                                          .createRequestInDatabase();
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                  CircularButtons(
+                                                    backgroundColor:
+                                                        const Color(0xfffc6359),
+                                                    borderColor:
+                                                        const Color(0xfffc6359),
+                                                    text: "No",
+                                                    height: 50,
+                                                    width: width * 0.1,
+                                                    textColor: Colors.white,
+                                                    textStyle: WhiteText,
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ));
+                                  });
+                            }))
                   ],
                 ),
               ),
@@ -587,26 +653,29 @@ class _choiceChipWidgetState extends State<choiceChipWidget> {
     List<Widget> choices = [];
     widget.reportList.forEach((item) {
       choices.add(Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(vertical: 20.h),
         child: FilterChip(
           showCheckmark: false,
           //inside chip padding
-          labelPadding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-          padding: EdgeInsets.symmetric(horizontal: 32.w),
+          labelPadding: EdgeInsets.symmetric(horizontal: 150.w, vertical: 15.h),
+          padding: EdgeInsets.symmetric(horizontal: 35.h),
           label: SingleChildScrollView(
               child: Text("${item.startSlot} to ${item.endSlot}")),
           labelStyle: TextStyle(
-              color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold),
+              color: Color(0xff3A3A3A),
+              fontSize: 20.0,
+              fontWeight: FontWeight.w600),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(15.0),
           ),
           backgroundColor: Color(0xffC4C4C4),
           selectedColor: Colors.red,
           selected: appointmentController.selectedChoice.value == item,
           onSelected: (selected) {
             setState(() {
-              //selected == true;
               appointmentController.selectedChoice.value = item;
+
+              //selected == true;
             });
           },
         ),

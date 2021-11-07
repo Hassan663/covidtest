@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
+import 'package:rrt_client_web_app/controllers/appointment/booked_appointments/booked_appointment.dart';
+import 'package:rrt_client_web_app/views/home/main_screen.dart';
 import 'package:rrt_client_web_app/views/home/schedule_appointment.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/capture_picture.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/change_password.dart';
@@ -26,6 +28,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   PageController page = PageController(keepPage: true);
 
   final appointmentController = Get.put(AppointmentController());
+  final bookedAppointmentController = Get.put(BookAppointmentController());
 
   @override
   Widget build(BuildContext context) {
@@ -73,57 +76,65 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
               ),
               SideMenuItem(
                 priority: 1,
-                title: 'Schedule Appointment',
+                title: 'Appointments',
                 onTap: () {
                   page.jumpToPage(1);
+                },
+                icon: Icons.event_available
+              ),
+              SideMenuItem(
+                priority: 2,
+                title: 'Schedule Appointment',
+                onTap: () {
+                  page.jumpToPage(2);
                 },
                 icon: Icons.schedule,
               ),
               SideMenuItem(
-                priority: 2,
+                priority: 3,
                 title: 'Update Account',
                 onTap: () {
-                  page.jumpToPage(2);
+                  page.jumpToPage(3);
                 },
                 icon: Icons.system_update_alt,
               ),
               SideMenuItem(
-                priority: 3,
+                priority: 4,
                 title: 'Capture a Picture',
                 onTap: () {
-                  page.jumpToPage(3);
+                  page.jumpToPage(4);
                 },
                 icon: Icons.camera_alt_outlined,
               ),
               SideMenuItem(
-                priority: 4,
+                priority: 5,
                 title: 'Change Password',
                 onTap: () {
-                  page.jumpToPage(4);
+                  page.jumpToPage(5);
                 },
                 icon: Icons.change_circle,
               ),
               SideMenuItem(
-                priority: 5,
+                priority: 6,
                 title: 'Upload Document',
                 onTap: () async {
-                  page.jumpToPage(5);
+                  page.jumpToPage(6);
                 },
                 icon: Icons.cloud_upload_outlined,
               ),
               SideMenuItem(
-                priority: 6,
+                priority: 7,
                 title: 'Results',
                 onTap: () async {
-                  page.jumpToPage(6);
+                  page.jumpToPage(7);
                 },
                 icon: Icons.document_scanner,
               ),
               SideMenuItem(
-                priority: 7,
+                priority: 8,
                 title: 'Help',
                 onTap: () async {
-                  page.jumpToPage(7);
+                  page.jumpToPage(8);
                 },
                 icon: Icons.help_outline,
               ),
@@ -133,6 +144,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
             child: PageView(
               controller: page,
               children: [
+                MainScreen(),
                 HomeDashboard(),
                 ScheduleAppointment(),
                 UpdateAccount(),
