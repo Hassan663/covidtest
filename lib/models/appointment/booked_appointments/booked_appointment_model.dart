@@ -10,6 +10,7 @@ class BookedAppointmentModel {
   String? nurseId;
   Schedule? schedule;
   String? status;
+  String? reqId;
 
   BookedAppointmentModel(
       {this.docId,
@@ -19,7 +20,8 @@ class BookedAppointmentModel {
       this.appCreatedAt,
       this.nurseId,
       this.schedule,
-      this.status});
+      this.reqId,
+      this.status,});
 
   BookedAppointmentModel.fromDocumentSnapshot(DocumentSnapshot doc) {
     docId = doc.id;
@@ -30,7 +32,8 @@ class BookedAppointmentModel {
     nurseId = doc['nurseId'];
     schedule = Schedule.fromDocumentSnapshot(doc['schedule']);
     status = doc['status'];
+    reqId = doc['reqId'];
   }
 
-  Map<String, dynamic> toJson() => {'appId': appId, 'clientId': clientId ,'createdAt': createdAt, 'appCreatedAt': appCreatedAt, 'nurseId': nurseId, 'schedule': schedule?.toJson(), 'status': status};
+  Map<String, dynamic> toJson() => {'appId': appId, 'clientId': clientId ,'createdAt': createdAt, 'appCreatedAt': appCreatedAt, 'nurseId': nurseId, 'schedule': schedule?.toJson(), 'status': status, "reqId" : reqId};
 }

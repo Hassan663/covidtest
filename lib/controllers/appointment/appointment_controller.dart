@@ -22,7 +22,11 @@ class AppointmentController extends GetxController {
   }
 
   void createRequestInDatabase(){
-    AppointmentDatabase().generateRequestInDatabase(selectedApp.value, authController.currentUser.value.uid!);
+    AppointmentDatabase().generateRequestInDatabase(selectedApp.value, authController.currentUser.value.uid!, selectedChoice.value);
+  }
+
+  void updateRequestInDatabase(String docId,){
+    AppointmentDatabase().updateRequestInDatabase(selectedApp.value, authController.currentUser.value.uid!, selectedChoice.value, docId);
   }
 
 }

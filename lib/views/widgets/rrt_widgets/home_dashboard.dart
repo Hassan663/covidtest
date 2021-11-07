@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/constants/rrt_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rrt_client_web_app/controllers/appointment/booked_appointments/booked_appointment.dart';
+import 'package:rrt_client_web_app/models/appointment/booked_appointments/booked_appointment_model.dart';
 
 import 'header.dart';
 
@@ -15,6 +18,9 @@ class HomeDashboard extends StatefulWidget {
 }
 
 class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveClientMixin {
+
+  final bookedAppointment = Get.find<BookedAppointmentController>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -70,14 +76,15 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
               width: MediaQuery.of(context).size.width,
               child: Padding(
                 padding: EdgeInsets.all(12.0.sp),
-                child: GridView.builder(
+                child: Obx(() => GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         //childAspectRatio: 3.w / 3.h,
                         crossAxisSpacing: 20.w,
                         mainAxisSpacing: 10.h),
-                    itemCount: 12,
+                    itemCount: bookedAppointment.myAppointments.length,
                     itemBuilder: (BuildContext ctx, index) {
+                      BookedAppointmentModel data = bookedAppointment.myAppointments[index];
                       return Padding(
                         padding: EdgeInsets.all(8.0.sp),
                         child: SingleChildScrollView(
@@ -93,12 +100,12 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                                   padding: EdgeInsets.all(15.0.sp),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.only(top: 15.h),
                                         child: Text(
-                                          "Appointment $index",
+                                          "Appointment ${index + 1}",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.inter(
@@ -121,7 +128,7 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Container(
                                           height: 25.h,
@@ -145,7 +152,7 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                                       left: 10.w, right: 10.w, top: 30.h),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       ElevatedButton(
                                           onPressed: () {
@@ -156,41 +163,41 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                                                   return AlertDialog(
                                                       shape: RoundedRectangleBorder(
                                                           borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      20.0))),
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  20.0))),
                                                       backgroundColor:
-                                                          Colors.white,
+                                                      Colors.white,
                                                       content: Container(
                                                         height: 300,
                                                         width: 500,
                                                         child: Column(
                                                           mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceAround,
+                                                          MainAxisAlignment
+                                                              .spaceAround,
                                                           children: [
                                                             Row(
                                                               mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
+                                                              MainAxisAlignment
+                                                                  .center,
                                                               children: [
                                                                 Text(
                                                                   'Countdown Started',
                                                                   style: TextStyle(
                                                                       color:
-                                                                          fButtonColor,
+                                                                      fButtonColor,
                                                                       fontSize:
-                                                                          25,
+                                                                      25,
                                                                       fontWeight:
-                                                                          FontWeight
-                                                                              .bold),
+                                                                      FontWeight
+                                                                          .bold),
                                                                 ),
                                                               ],
                                                             ),
                                                             Row(
                                                               mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceAround,
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
                                                               children: [
                                                                 Container(
                                                                   height: 170.0,
@@ -198,19 +205,19 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                                                                   // margin: EdgeInsets.only(top: 18, right: 14, left: 14),
                                                                   decoration: BoxDecoration(
                                                                       color:
-                                                                          fLabelTextColor,
+                                                                      fLabelTextColor,
                                                                       borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              15)),
+                                                                      BorderRadius.circular(
+                                                                          15)),
                                                                   child: Column(
                                                                     children: [
                                                                       Padding(
                                                                         padding:
-                                                                            const EdgeInsets.all(15.0),
+                                                                        const EdgeInsets.all(15.0),
                                                                         child:
-                                                                            Row(
+                                                                        Row(
                                                                           mainAxisAlignment:
-                                                                              MainAxisAlignment.spaceBetween,
+                                                                          MainAxisAlignment.spaceBetween,
                                                                           children: [
                                                                             Text(
                                                                               "Appointment $index",
@@ -223,24 +230,24 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                                                                       Container(
                                                                         margin: EdgeInsets.only(
                                                                             left:
-                                                                                10,
+                                                                            10,
                                                                             right:
-                                                                                10),
+                                                                            10),
                                                                         height:
-                                                                            60,
+                                                                        60,
                                                                         decoration: BoxDecoration(
                                                                             color:
-                                                                                fContainerColor,
+                                                                            fContainerColor,
                                                                             borderRadius:
-                                                                                BorderRadius.circular(10)),
+                                                                            BorderRadius.circular(10)),
                                                                         child:
-                                                                            Padding(
+                                                                        Padding(
                                                                           padding:
-                                                                              const EdgeInsets.all(10.0),
+                                                                          const EdgeInsets.all(10.0),
                                                                           child:
-                                                                              Row(
+                                                                          Row(
                                                                             mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
+                                                                            MainAxisAlignment.spaceBetween,
                                                                             children: [
                                                                               Image.asset("assets/datetime.png"),
                                                                               Text(
@@ -254,15 +261,15 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(
                                                                             left:
-                                                                                10,
+                                                                            10,
                                                                             right:
-                                                                                10,
+                                                                            10,
                                                                             top:
-                                                                                10),
+                                                                            10),
                                                                         child:
-                                                                            Row(
+                                                                        Row(
                                                                           mainAxisAlignment:
-                                                                              MainAxisAlignment.spaceBetween,
+                                                                          MainAxisAlignment.spaceBetween,
                                                                           children: [
                                                                             ElevatedButton(
                                                                                 onPressed: () {},
@@ -292,34 +299,34 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                                                                         Icons
                                                                             .timer,
                                                                         size:
-                                                                            60,
+                                                                        60,
                                                                         color: Colors
                                                                             .red),
                                                                     TimerCountdown(
                                                                       enableDescriptions:
-                                                                          false,
+                                                                      false,
                                                                       timeTextStyle: TextStyle(
                                                                           fontSize:
-                                                                              35,
+                                                                          35,
                                                                           fontWeight:
-                                                                              FontWeight.w900),
+                                                                          FontWeight.w900),
                                                                       colonsTextStyle: TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .bold,
                                                                           fontSize:
-                                                                              15),
+                                                                          15),
                                                                       spacerWidth:
-                                                                          0,
+                                                                      0,
                                                                       format: CountDownTimerFormat
                                                                           .hoursMinutesSeconds,
                                                                       endTime:
-                                                                          DateTime.now()
-                                                                              .add(
+                                                                      DateTime.now()
+                                                                          .add(
                                                                         Duration(
                                                                           minutes:
-                                                                              27,
+                                                                          27,
                                                                           seconds:
-                                                                              34,
+                                                                          34,
                                                                         ),
                                                                       ),
                                                                       onEnd:
@@ -355,8 +362,8 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                                               primary: fButtonColor,
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          20)))),
+                                                  BorderRadius.circular(
+                                                      20)))),
                                       ElevatedButton(
                                           onPressed: () {},
                                           child: Text(
@@ -373,8 +380,8 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                                               primary: fButtonColor,
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          20)))),
+                                                  BorderRadius.circular(
+                                                      20)))),
                                     ],
                                   ),
                                 ),
@@ -386,7 +393,7 @@ class _HomeDashboardState extends State<HomeDashboard> with AutomaticKeepAliveCl
                           ),
                         ),
                       );
-                    }),
+                    })),
               ),
             )
           ],

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
@@ -9,6 +10,8 @@ import 'package:rrt_client_web_app/constants/rrt_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rrt_client_web_app/constants/rtt_textstyle.dart';
 import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
+import 'package:rrt_client_web_app/controllers/appointment/booked_appointments/booked_appointment.dart';
+import 'package:rrt_client_web_app/models/appointment/booked_appointments/booked_appointment_model.dart';
 import 'package:rrt_client_web_app/models/appointment/slots.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/cache.dart';
@@ -341,30 +344,11 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                                                     //             // fit: BoxFit.cover))
                                                     //           ));
                                                     //     });
-                                                    print(appointmentController
-                                                        .availableAppointments[
-                                                            index]
-                                                        .schedule
-                                                        ?.slots!
-                                                        .toList());
                                                     setState(() {
-                                                      appointmentController
-                                                              .chipList.value =
-                                                          appointmentController
-                                                              .availableAppointments[
-                                                                  index]
-                                                              .schedule!
-                                                              .slots!;
-                                                      appointmentController
-                                                              .selectedApp
-                                                              .value =
-                                                          appointmentController
-                                                                  .availableAppointments[
-                                                              index];
+                                                      appointmentController.chipList.value = appointmentController.availableAppointments[index].schedule!.slots!;
+                                                      appointmentController.selectedApp.value = appointmentController.availableAppointments[index];
                                                     });
 
-                                                    print(appointmentController
-                                                        .chipList.length);
                                                   },
                                                   child: Text(
                                                     "Check Slots",
@@ -607,8 +591,70 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                                                     textColor: Colors.white,
                                                     textStyle: WhiteText,
                                                     onPressed: () {
-                                                      appointmentController
-                                                          .createRequestInDatabase();
+                                                      final bookedAppointmentController = Get.find<BookedAppointmentController>();
+
+
+
+                                                      if(bookedAppointmentController.myAppointments.isEmpty){
+                                                        appointmentController.createRequestInDatabase();
+                                                      }else{
+                                                        // CHECKING IF THE SLOT IS ALREADY IN OUR LIST
+
+                                                        // for (var element in bookedAppointmentController.myAppointments) {
+                                                        //   if(element.schedule!.slots!.length == appointmentController.selectedApp.value.schedule!.slots!.length){
+                                                        //     for (var slot in element.schedule!.slots!){
+                                                        //       if(slot.startSlot == appointmentController.selectedChoice.value.startSlot && slot.endSlot == appointmentController.selectedChoice.value.endSlot){
+                                                        //         print("SLOT ALREADY EXISTS");
+                                                        //       }else{
+                                                        //
+                                                        //       }
+                                                        //     }
+                                                        //   }else{
+                                                        //     print("DOES NOT EXISTS");
+                                                        //   }
+                                                        // }
+
+                                                        for (var element in bookedAppointmentController.myAppointments) {
+                                                          if(element.docId == appointmentController.selectedApp.value.uid){
+                                                            appointmentController.updateRequestInDatabase(element.reqId!);
+                                                            break;
+                                                          }else{
+                                                            appointmentController.createRequestInDatabase();
+                                                            break;
+                                                          }
+                                                        }
+                                                      }
+                                                      print(
+                                                          appointmentController
+                                                              .selectedApp
+                                                              .value
+                                                              .uid);
+                                                      // FirebaseFirestore.instance
+                                                      //     .collection(
+                                                      //     'available-appointments')
+                                                      //     .doc(
+                                                      //     appointmentController
+                                                      //         .selectedApp
+                                                      //         .value
+                                                      //         .uid)
+                                                      //     .get()
+                                                      //     .then((value) {
+                                                      //   if (value.exists) {
+                                                      //     appointmentController
+                                                      //         .createRequestInDatabase();
+                                                      //     print(value.exists);
+                                                      //   } else {
+                                                      //     print(value.exists);
+                                                      //     appointmentController
+                                                      //         .updateRequestInDatabase(
+                                                      //         appointmentController
+                                                      //             .selectedApp
+                                                      //             .value
+                                                      //             .uid!);
+                                                      //   }
+                                                      // });
+
+
                                                       Navigator.pop(context);
                                                     },
                                                   ),

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:rrt_client_web_app/controllers/authentication/auth_controller.dart';
 
 class Header extends StatelessWidget {
-  const Header({Key? key}) : super(key: key);
+  Header({Key? key}) : super(key: key);
+
+  final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,9 @@ class Header extends StatelessWidget {
                       onPressed: () {},
                       icon: Icon(Icons.notifications_none_outlined)),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        authController.logOut();
+                      },
                       icon: Icon(Icons.power_settings_new)),
                 ],
               )

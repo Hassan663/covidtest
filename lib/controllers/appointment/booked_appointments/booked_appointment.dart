@@ -4,15 +4,11 @@ import 'package:rrt_client_web_app/controllers/authentication/auth_controller.da
 import 'package:rrt_client_web_app/controllers/service/booked_appoiintment_database.dart';
 import 'package:rrt_client_web_app/models/appointment/booked_appointments/booked_appointment_model.dart';
 
-class BookAppointmentController extends GetxController {
+class BookedAppointmentController extends GetxController {
   var myAppointments = <BookedAppointmentModel>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    myAppointments.bindStream(BookedAppointmentDatabase().getAllBookedAppointments());
+  void getMyBookedAppointments(String uid){
+    myAppointments.bindStream(BookedAppointmentDatabase().getAllBookedAppointments(uid));
   }
-
-
 
 }

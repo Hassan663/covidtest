@@ -14,20 +14,20 @@ import 'package:rrt_client_web_app/models/appointment/schedule.dart';
 
 class BookedAppointmentDatabase{
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-  final authController = Get.find<AuthController>();
 
-  Stream<List<BookedAppointmentModel>> getAllBookedAppointments() {
+  Stream<List<BookedAppointmentModel>> getAllBookedAppointments(String uid) {
+
     return _fireStore
         .collection('client')
-        .doc(authController.currentUser.value.uid)
+        .doc(uid)
         .collection('booked')
-        // .orderBy('createdAt', descending: true)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
       List<BookedAppointmentModel> retVal = <BookedAppointmentModel>[];
-      // snapshot.docs.forEach((element) {
-      //   retVal.add(BookedAppointmentModel.fromDocumentSnapshot(element));
-      // });
+      snapshot.docs.forEach((element) {
+        retVal.add(BookedAppointmentModel.fromDocumentSnapshot(element));
+      });
       return retVal;
     });
 

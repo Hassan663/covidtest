@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:rrt_client_web_app/constants/custom_snackbar.dart';
 import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/constants/utils/auth_exception_handler.dart';
+import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
+import 'package:rrt_client_web_app/controllers/appointment/booked_appointments/booked_appointment.dart';
 import 'package:rrt_client_web_app/controllers/service/database.dart';
 import 'package:rrt_client_web_app/models/authentication/auth_model.dart';
 import '../../views/authentication/login.dart';
