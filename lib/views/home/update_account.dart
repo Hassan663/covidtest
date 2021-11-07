@@ -21,6 +21,8 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
 import 'package:rrt_client_web_app/views/home/event.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -34,19 +36,18 @@ class _UpdateAccountState extends State<UpdateAccount> {
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
+  final appointmentController = Get.find<AppointmentController>();
 
   TextEditingController _eventController = TextEditingController();
 
   @override
   void initState() {
-    // selectedEvents![selectedDay] = [Event(title: " _eventController.text")];
-    // selectedEvents!["2021-11-17 00:00:00.000Z"]!.add(Event(title: "Event"));
-    // selectedEvents![DateTime.now()]!.add(Event(title: "Event1"));
+    selectionDay();
     super.initState();
   }
 
   List<Event> _getEventsfromDay(DateTime date) {
-    return selectedEvents![date] ?? [];
+    return selectedEvents![DateTime.now()] ?? [];
   }
 
   void selectionDay() {
@@ -170,13 +171,13 @@ class _UpdateAccountState extends State<UpdateAccount> {
                 onPressed: () {
                   if (_eventController.text.isEmpty) {
                   } else {
-                    if (selectedEvents![selectedDay] != null) {
-                      print(selectedDay.toString());
-                      selectedEvents![selectedDay]!.add(
+                    if (selectedEvents![DateTime.now()] != null) {
+                      print(DateTime.now().toString());
+                      selectedEvents![DateTime.now()]!.add(
                         Event(title: _eventController.text),
                       );
                     } else {
-                      selectedEvents![selectedDay] = [
+                      selectedEvents![DateTime.now()] = [
                         Event(title: _eventController.text)
                       ];
                     }
