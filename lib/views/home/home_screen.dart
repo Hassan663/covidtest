@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
 import 'package:rrt_client_web_app/controllers/appointment/booked_appointments/booked_appointment.dart';
 import 'package:rrt_client_web_app/controllers/authentication/auth_controller.dart';
+import 'package:rrt_client_web_app/views/authentication/rrt_forgot_password_screen.dart';
 import 'package:rrt_client_web_app/views/home/main_screen.dart';
 import 'package:rrt_client_web_app/views/home/schedule_appointment.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/capture_picture.dart';
@@ -25,17 +26,17 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   PageController page = PageController(keepPage: true);
   final authController = Get.find<AuthController>();
   final appointmentController = Get.put(AppointmentController());
   final bookedAppointmentController = Get.put(BookedAppointmentController());
 
-
   @override
   void initState() {
     authController.getUserId().then((value) {
-    bookedAppointmentController.getMyBookedAppointments(value);
+      bookedAppointmentController.getMyBookedAppointments(value);
     });
     super.initState();
   }
@@ -92,13 +93,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                 icon: Icons.home,
               ),
               SideMenuItem(
-                priority: 1,
-                title: 'Appointments',
-                onTap: () {
-                  page.jumpToPage(1);
-                },
-                icon: Icons.event_available
-              ),
+                  priority: 1,
+                  title: 'Appointments',
+                  onTap: () {
+                    page.jumpToPage(1);
+                  },
+                  icon: Icons.event_available),
               SideMenuItem(
                 priority: 2,
                 title: 'Schedule Appointment',
@@ -117,41 +117,33 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
               ),
               SideMenuItem(
                 priority: 4,
-                title: 'Capture a Picture',
-                onTap: () {
-                  page.jumpToPage(4);
-                },
-                icon: Icons.camera_alt_outlined,
-              ),
-              SideMenuItem(
-                priority: 5,
                 title: 'Change Password',
                 onTap: () {
-                  page.jumpToPage(5);
+                  page.jumpToPage(4);
                 },
                 icon: Icons.change_circle,
               ),
               SideMenuItem(
-                priority: 6,
+                priority: 5,
                 title: 'Upload Document',
                 onTap: () async {
-                  page.jumpToPage(6);
+                  page.jumpToPage(5);
                 },
                 icon: Icons.cloud_upload_outlined,
               ),
               SideMenuItem(
-                priority: 7,
+                priority: 6,
                 title: 'Results',
                 onTap: () async {
-                  page.jumpToPage(7);
+                  page.jumpToPage(6);
                 },
                 icon: Icons.document_scanner,
               ),
               SideMenuItem(
-                priority: 8,
+                priority: 7,
                 title: 'Help',
                 onTap: () async {
-                  page.jumpToPage(8);
+                  page.jumpToPage(7);
                 },
                 icon: Icons.help_outline,
               ),
@@ -165,8 +157,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                 HomeDashboard(),
                 ScheduleAppointment(),
                 UpdateAccount(),
-                CapturePicture(),
-                ChangePassword(),
+                ForgotPassword(),
                 UploadDocument(),
                 Results(),
                 Help(),

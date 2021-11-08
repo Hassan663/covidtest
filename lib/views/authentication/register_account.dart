@@ -42,8 +42,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
   void tryRegister() async {
     //Login user on auth request
-    final status =
-    await authController.createUser(
+    final status = await authController.createUser(
       emailController.text.trim(),
       passwordController.text,
       fNameController.text,
@@ -101,7 +100,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'First Name',
                             false,
                             TextInputType.name,
-                                (value) {
+                            (value) {
                               return (value!.isEmpty)
                                   ? "First Name can't be Empty"
                                   : null;
@@ -119,7 +118,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Last Name',
                             false,
                             TextInputType.name,
-                                (value) {
+                            (value) {
                               return (value!.isEmpty)
                                   ? "Last Name can't be Empity"
                                   : null;
@@ -137,7 +136,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Email',
                             false,
                             TextInputType.emailAddress,
-                                (value) {
+                            (value) {
                               Pattern pattern =
                                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                               RegExp regex = RegExp(pattern as String);
@@ -158,7 +157,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Password',
                             true,
                             TextInputType.name,
-                                (value) {
+                            (value) {
                               return (value!.isEmpty)
                                   ? "Password can't be Empity"
                                   : null;
@@ -176,7 +175,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             'Confirm Password',
                             true,
                             TextInputType.name,
-                                (value) {
+                            (value) {
                               if (value.isEmpty) {
                                 return 'Confirm Password cannot be Empity';
                               }
@@ -186,6 +185,38 @@ class _RegisterAccountState extends State<RegisterAccount> {
                               return null;
                             },
                           ),
+                        ),
+                        SizedBox(
+                          height: 30.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CircularButtons(
+                              backgroundColor: const Color(0xff4F8484),
+                              borderColor: const Color(0xff4F8484),
+                              text: "Upload License",
+                              height: 50,
+                              width: width * 0.15,
+                              textColor: Colors.white,
+                              textStyle: WhiteText,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            CircularButtons(
+                              backgroundColor: const Color(0xff4F8484),
+                              borderColor: const Color(0xff4F8484),
+                              text: "Upload Passport",
+                              height: 50,
+                              width: width * 0.15,
+                              textColor: Colors.white,
+                              textStyle: WhiteText,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 30.h,
@@ -252,52 +283,3 @@ class _RegisterAccountState extends State<RegisterAccount> {
     );
   }
 }
-// InkWell(
-                      //   // onTap: () {
-                      //   //   Get.to(UserBillingInformation());
-                      //   // },
-                      //   onTap: () {
-                      //     if (fNameController!.text.length < 1 ||
-                      //         emailController!.text.endsWith(".com") == false ||
-                      //         passwordController!.text.length < 1 ||
-                      //         confirmpasswordController!.text.length < 1 ||
-                      //         lNameController!.text.length < 1) {
-                      //       _passwordError = "Enter atleast";
-                      //     } else
-                      //       Get.to(UserBillingInformation());
-                      //   },
-
-                      // child: Container(
-                      //   alignment: Alignment.center,
-                      //   width: MediaQuery.of(context).size.width * 0.2,
-                      //   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                      //   decoration: BoxDecoration(
-                      //       color: const Color(0xfffc6359),
-                      //       borderRadius: BorderRadius.circular(30.0)),
-                      //   child: const Text(
-                      //     'Next',
-                      //     style: TextStyle(color: Colors.white),
-                      //   ),
-                      // ),
-                      //),
-                      // InkWell(
-                      //   onTap: () {
-                      //     Get.to(UserBillingInformation());
-                      //   },
-                      //   child: Padding(
-                      //     padding: EdgeInsets.symmetric(horizontal: 120.w),
-                      //     child: Container(
-                      //       alignment: Alignment.center,
-                      //       // height: 65.h,
-                      //       width: width,
-                      //       padding: EdgeInsets.symmetric(vertical: 15.0.h),
-                      //       decoration: BoxDecoration(
-                      //           color: Color(0xfffc6359),
-                      //           borderRadius: BorderRadius.circular(30.0.sp)),
-                      //       child: Text(
-                      //         'Next',
-                      //         style: TextStyle(color: Colors.white),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // )
