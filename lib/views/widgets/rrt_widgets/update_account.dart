@@ -19,6 +19,7 @@
 //     );
 //   }
 // }
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -81,6 +82,50 @@ class _UpdateAccountState extends State<UpdateAccount> {
                           child: Image.asset("assets/rtt.png"),
                         ),
                         Text("Update Account", style: TitleText),
+                        SizedBox(
+                          height: 40.h,
+                        ),
+                        Stack(
+                          children: [
+                            CircularProfileAvatar(
+                              'https://avatars0.githubusercontent.com/u/8264639?s=460&v=4', //sets image path, it should be a URL string. default value is empty string, if path is empty it will display only initials
+                              radius: 50, // sets radius, default 50.0
+                              backgroundColor: Colors
+                                  .white, // sets background color, default Colors.white
+                              borderWidth: 5, // sets border, default 0.0
+                              // initialsText: Text(
+                              //   "AD",
+                              //   style: TextStyle(fontSize: 40, color: Colors.white),
+                              // ), // sets initials text, set your own style, default Text('')
+                              borderColor: Colors
+                                  .grey, // sets border color, default Colors.white
+                              elevation:
+                                  5.0, // sets elevation (shadow of the profile picture), default value is 0.0
+                              foregroundColor: Colors.brown.withOpacity(
+                                  0.5), //sets foreground colour, it works if showInitialTextAbovePicture = true , default Colors.transparent
+                              cacheImage:
+                                  false, // allow widget to cache image against provided url
+                              // imageFit = BoxFit.cover,
+                              onTap: () {
+                                print('adil');
+                              }, // sets on tap
+                              showInitialTextAbovePicture:
+                                  false, // setting it true will show initials text above profile picture, default false
+                            ),
+                            Positioned(
+                              top: 80.h,
+                              left: 100.w,
+                              child: IconButton(
+                                onPressed: () async {
+                                  final Document =
+                                      await FilePicker.platform.pickFiles();
+                                },
+                                icon: Icon(Icons.edit),
+                                color: Colors.black,
+                              ),
+                            )
+                          ],
+                        ),
                         SizedBox(
                           height: 40.h,
                         ),
@@ -165,8 +210,8 @@ class _UpdateAccountState extends State<UpdateAccount> {
                               width: width * 0.15,
                               textColor: Colors.white,
                               textStyle: WhiteText,
-                              onPressed: ()async {
-                                 final passport =
+                              onPressed: () async {
+                                final passport =
                                     await FilePicker.platform.pickFiles();
                               },
                             ),
