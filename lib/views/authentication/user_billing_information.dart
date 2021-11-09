@@ -8,14 +8,14 @@ import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/textfield.dart';
 import 'login.dart';
 import 'package:easy_mask/easy_mask.dart';
-import 'package:text_input_mask_formatter/text_input_mask_formatter.dart';
+//import 'package:text_input_mask_formatter/text_input_mask_formatter.dart';
 
 class UserBillingInformation extends StatelessWidget {
   TextEditingController? cardNumberController = TextEditingController();
   TextEditingController? cardHolderNameController = TextEditingController();
   TextEditingController? cvvController = TextEditingController();
   late String _passwordError;
-  final maskformatter = MaskTextInputFormatter("#### #### #### ####");
+  //final maskformatter = MaskTextInputFormatter("#### #### #### ####");
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -274,23 +274,23 @@ class UserBillingInformation extends StatelessWidget {
   }
 }
 // InkWell(
-                      //   onTap: () {
-                      //     if (cardNumberController!.text.length < 1 ||
-                      //         cardHolderNameController!.text.length < 1 ||
-                      //         cvvController!.text.length < 1) {
-                      //       _passwordError = "Enter atleast";
-                      //     } else {}
-                      //   },
-                      //   child: Container(
-                      //     alignment: Alignment.center,
-                      //     width: MediaQuery.of(context).size.width * 0.2,
-                      //     padding: const EdgeInsets.symmetric(vertical: 15.0),
-                      //     decoration: BoxDecoration(
-                      //         color: const Color(0xfffc6359),
-                      //         borderRadius: BorderRadius.circular(30.0)),
-                      //     child: const Text(
-                      //       'Create Account',
-                      //       style: TextStyle(color: Colors.white),
-                      //     ),
-                      //   ),
-                      // ),
+//   onTap: () {
+//     if (cardNumberController!.text.length < 1 ||
+//         cardHolderNameController!.text.length < 1 ||
+//         cvvController!.text.length < 1) {
+//       _passwordError = "Enter atleast";
+//     } else {}
+//   },
+//   child: Container(
+//     alignment: Alignment.center,
+//     width: MediaQuery.of(context).size.width * 0.2,
+//     padding: const EdgeInsets.symmetric(vertical: 15.0),
+//     decoration: BoxDecoration(
+//         color: const Color(0xfffc6359),
+//         borderRadius: BorderRadius.circular(30.0)),
+//     child: const Text(
+//       'Create Account',
+//       style: TextStyle(color: Colors.white),
+//     ),
+//   ),
+// ),

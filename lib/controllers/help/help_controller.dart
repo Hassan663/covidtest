@@ -1,157 +1,152 @@
+import 'dart:developer';
 
-// import 'dart:developer';
+import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
+//import 'package:config.dart' as config;
+import 'config.dart' as config;
 
-// import 'package:agora_rtc_engine/rtc_engine.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:permission_handler/permission_handler.dart';
-// import 'package:rrt_client_web_app/controllers/help/config.dart' as config;
+class HelpController extends GetxController {
+  late final RtcEngine engine;
+  String channelId = config.channelId;
+  bool isJoined = false, switchCamera = true, switchRender = true;
+  List<int> remoteUid = [];
+  TextEditingController controller = TextEditingController();
+  TextEditingController message = TextEditingController();
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final firestoreInstance = FirebaseFirestore.instance.collection("Chat");
+  final chatgroup = FirebaseFirestore.instance.collection("ChatGroup");
+  var id;
+  List messagelist = [];
+  bool isLoading = true;
 
-// class HelpController extends GetxController {
+  @override
+  void onInit() async {
+    if (Get.arguments != null) {
+      print(id);
+      id = "12";
+      // id = Get.arguments;
+      getMessage(id.toString());
+    }
+    await initEngine();
+    update();
+    super.onInit();
+  }
 
-//   late final RtcEngine engine;
-//   String channelId = config.channelId;
-//   bool isJoined = false, switchCamera = true, switchRender = true;
-//   List<int> remoteUid = [];
-//   TextEditingController controller = TextEditingController();
-//   TextEditingController message = TextEditingController();
+  @override
+  void onReady() async {
+    isLoading = false;
+    update();
+    super.onReady();
+  }
 
-//   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-//   final firestoreInstance = FirebaseFirestore.instance.collection("Chat");
-//   final chatgroup = FirebaseFirestore.instance.collection("ChatGroup");
-//   var id;
-//   List messagelist = [];
+  @override
+  void onClose() {
+    engine.destroy();
+    super.onClose();
+  }
 
-//   bool isLoading = true;
+  Future<void> getMessage(String rid) async {
+    print(rid);
+    Stream<QuerySnapshot> streambodytarget = firestoreInstance
+        .where("docId", isEqualTo: rid)
+        .orderBy("createdAt", descending: true)
+        .snapshots();
+    await streambodytarget.forEach((e) {
+      messagelist.clear();
+      for (var value in e.docs) {
+        print(value.data());
+        messagelist.add(value.data());
+      }
+      update();
+    }).catchError((e) {
+      print(e);
+    });
+  }
 
-//   @override
-//   void onInit() async {
-//     if (Get.arguments != null) {
-//       print(id);
-//       id = "12";
-//       // id = Get.arguments;
-//       getMessage(id.toString());
-//     }
-//     await initEngine();
-//     update();
-//     super.onInit();
-//   }
+  Future<void> sendmessage() async {
+    print(id);
+    await firestoreInstance.add({
+      "senderid": firebaseAuth.currentUser!.uid,
+      "type": "text",
+      "docId": "12",
+      // "docId": id,
+      "message": message.text,
+      "sendername": "Hamza",
+      "createdAt": Timestamp.now(),
+    }).then((value) {
+      print(id);
+      chatgroup.doc(id).update({
+        "recent": message.text,
+      }).then((value) {
+        message.clear();
+        print("message send");
+      });
+    });
+  }
 
-//   @override
-//   void onReady() async {
-//     isLoading = false;
-//     update();
-//     super.onReady();
-//   }
+  initEngine() async {
+    engine = await RtcEngine.createWithContext(RtcEngineContext(config.appId));
+    this.addListeners();
+    await engine.enableVideo();
+    await engine.startPreview();
+    await engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
+    await engine.setClientRole(ClientRole.Broadcaster);
+  }
 
-//   @override
-//   void onClose() {
-//     engine.destroy();
-//     super.onClose();
-//   }
+  addListeners() {
+    engine.setEventHandler(RtcEngineEventHandler(
+      joinChannelSuccess: (channel, uid, elapsed) {
+        log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        isJoined = true;
+        update();
+      },
+      userJoined: (uid, elapsed) {
+        log('userJoined  ${uid} ${elapsed}');
+        remoteUid.add(uid);
+        update();
+      },
+      userOffline: (uid, reason) {
+        log('userOffline  ${uid} ${reason}');
+        remoteUid.removeWhere((element) => element == uid);
+        update();
+      },
+      leaveChannel: (stats) {
+        log('leaveChannel ${stats.toJson()}');
+        isJoined = false;
+        remoteUid.clear();
+        update();
+      },
+    ));
+  }
 
-//   Future<void> getMessage(String rid) async {
-//     print(rid);
-//     Stream<QuerySnapshot> streambodytarget = firestoreInstance
-//         .where("docId", isEqualTo: rid)
-//         .orderBy("createdAt", descending: true)
-//         .snapshots();
-//     await streambodytarget.forEach((e) {
-//       messagelist.clear();
-//       for (var value in e.docs) {
-//         print(value.data());
-//         messagelist.add(value.data());
-//       }
-//       update();
-//     }).catchError((e) {
-//       print(e);
+  joinChannel() async {
+    if (defaultTargetPlatform == TargetPlatform.fuchsia) {
+      await [Permission.microphone, Permission.camera].request();
+    }
+    await engine.joinChannel(config.token, channelId, null, config.uid);
+  }
 
-//     });
-//   }
-//   Future<void> sendmessage() async {
-//     print(id);
-//     await firestoreInstance.add({
-//       "senderid": firebaseAuth.currentUser!.uid,
-//       "type": "text",
-//       "docId": "12",
-//       // "docId": id,
-//       "message": message.text,
-//       "sendername": "Hamza",
-//       "createdAt": Timestamp.now(),
-//     }).then((value) {
-//       print(id);
-//       chatgroup.doc(id).update({
-//         "recent" : message.text,
-//       }).then((value){
-//         message.clear();
-//         print("message send");
-//       });
-//     });
-//   }
+  leaveChannel() async {
+    await engine.leaveChannel();
+  }
 
-//   initEngine() async {
-//     engine = await RtcEngine.createWithContext(RtcEngineContext(config.appId));
-//     this.addListeners();
-//     await engine.enableVideo();
-//     await engine.startPreview();
-//     await engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
-//     await engine.setClientRole(ClientRole.Broadcaster);
-//   }
+  switchCameras() {
+    engine.switchCamera().then((value) {
+      switchCamera = !switchCamera;
+      update();
+    }).catchError((err) {
+      log('switchCamera $err');
+    });
+  }
 
-//   addListeners() {
-//     engine.setEventHandler(RtcEngineEventHandler(
-//       joinChannelSuccess: (channel, uid, elapsed) {
-//         log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
-//         isJoined = true;
-//         update();
-//       },
-//       userJoined: (uid, elapsed) {
-//         log('userJoined  ${uid} ${elapsed}');
-//         remoteUid.add(uid);
-//         update();
-//       },
-//       userOffline: (uid, reason) {
-//         log('userOffline  ${uid} ${reason}');
-//         remoteUid.removeWhere((element) => element == uid);
-//         update();
-//       },
-//       leaveChannel: (stats) {
-//         log('leaveChannel ${stats.toJson()}');
-//         isJoined = false;
-//         remoteUid.clear();
-//         update();
-//       },
-//     ));
-//   }
-
-//   joinChannel() async {
-//     if (defaultTargetPlatform == TargetPlatform.fuchsia) {
-//       await [Permission.microphone, Permission.camera].request();
-//     }
-//     await engine.joinChannel(config.token, channelId, null, config.uid);
-//   }
-
-//   leaveChannel() async {
-//     await engine.leaveChannel();
-//   }
-
-//   switchCameras() {
-//     engine.switchCamera().then((value) {
-//       switchCamera = !switchCamera;
-//       update();
-//     }).catchError((err) {
-//       log('switchCamera $err');
-//     });
-//   }
-
-//   switchRenders() {
-//     switchRender = !switchRender;
-//     remoteUid = List.of(remoteUid.reversed);
-//     update();
-//   }
-
-
-// }
+  switchRenders() {
+    switchRender = !switchRender;
+    remoteUid = List.of(remoteUid.reversed);
+    update();
+  }
+}
