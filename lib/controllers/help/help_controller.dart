@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:agora_rtc_engine/rtc_engine.dart';
@@ -8,23 +7,21 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:rrt_client_web_app/controllers/help/config.dart' as config;
+//import 'package:config.dart' as config;
+import 'config.dart' as config;
 
 class HelpController extends GetxController {
-
   late final RtcEngine engine;
   String channelId = config.channelId;
   bool isJoined = false, switchCamera = true, switchRender = true;
   List<int> remoteUid = [];
   TextEditingController controller = TextEditingController();
   TextEditingController message = TextEditingController();
-
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final firestoreInstance = FirebaseFirestore.instance.collection("Chat");
   final chatgroup = FirebaseFirestore.instance.collection("ChatGroup");
   var id;
   List messagelist = [];
-
   bool isLoading = true;
 
   @override
@@ -68,9 +65,9 @@ class HelpController extends GetxController {
       update();
     }).catchError((e) {
       print(e);
-
     });
   }
+
   Future<void> sendmessage() async {
     print(id);
     await firestoreInstance.add({
@@ -84,8 +81,8 @@ class HelpController extends GetxController {
     }).then((value) {
       print(id);
       chatgroup.doc(id).update({
-        "recent" : message.text,
-      }).then((value){
+        "recent": message.text,
+      }).then((value) {
         message.clear();
         print("message send");
       });
@@ -152,6 +149,4 @@ class HelpController extends GetxController {
     remoteUid = List.of(remoteUid.reversed);
     update();
   }
-
-
 }
