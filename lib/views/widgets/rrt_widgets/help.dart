@@ -456,97 +456,99 @@ import 'package:rrt_client_web_app/widget/commontextfield.dart';
 class Help extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: new BoxDecoration(
-                color: Color(0xffE5E5E5), //new Color.fromRGBO(255, 0, 0, 0.0),
-                borderRadius: new BorderRadius.only(
-                    topLeft: Radius.circular(circular_radius_homeContainers),
-                    bottomLeft:
-                        Radius.circular(circular_radius_homeContainers))),
-            child: GetBuilder<HelpController>(
-              init: HelpController(),
-              builder: (_) {
-                return _.isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(),
+    return SafeArea(child: buildContainerHelp(context));
+  }
+
+  Container buildContainerHelp(BuildContext context) {
+    return Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: new BoxDecoration(
+            color: Color(0xffE5E5E5), //new Color.fromRGBO(255, 0, 0, 0.0),
+            borderRadius: new BorderRadius.only(
+                topLeft: Radius.circular(circular_radius_homeContainers),
+                bottomLeft: Radius.circular(circular_radius_homeContainers))),
+        child: GetBuilder<HelpController>(
+          init: HelpController(),
+          builder: (_) {
+            return _.isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Row(
+                    children: [
+                      Container(
+                        width: Get.width / 2.8,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: Get.width,
+                              child: TextField(
+                                controller: _.controller,
+                                decoration:
+                                    InputDecoration(hintText: 'Channel ID'),
+                                onChanged: (text) {
+                                  _.channelId = text;
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 30.0,
+                            ),
+                            Container(
+                              width: Get.width,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: ElevatedButton(
+                                      onPressed: _.isJoined
+                                          ? _.leaveChannel
+                                          : _.joinChannel,
+                                      child: Text(
+                                          '${_.isJoined ? 'Leave' : 'Join'} channel'),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            renderVideo(_),
+                            SizedBox(
+                              height: 30.0,
+                            ),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: _.switchCameras,
+                                    child: Text(
+                                        'Camera ${_.switchCamera ? 'front' : 'rear'}'),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: Get.width / 2.8,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: messages(_),
+                            ),
+                            sendmessage(_),
+                          ],
+                        ),
                       )
-                    : Row(
-                        children: [
-                          Container(
-                            width: Get.width / 2.8,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: Get.width,
-                                  child: TextField(
-                                    controller: _.controller,
-                                    decoration:
-                                        InputDecoration(hintText: 'Channel ID'),
-                                    onChanged: (text) {
-                                      _.channelId = text;
-                                    },
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 30.0,
-                                ),
-                                Container(
-                                  width: Get.width,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: ElevatedButton(
-                                          onPressed: _.isJoined
-                                              ? _.leaveChannel
-                                              : _.joinChannel,
-                                          child: Text(
-                                              '${_.isJoined ? 'Leave' : 'Join'} channel'),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                renderVideo(_),
-                                SizedBox(
-                                  height: 30.0,
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: _.switchCameras,
-                                        child: Text(
-                                            'Camera ${_.switchCamera ? 'front' : 'rear'}'),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: Get.width / 2.8,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: messages(_),
-                                ),
-                                sendmessage(_),
-                              ],
-                            ),
-                          )
-                        ],
-                      );
-              },
-            )));
+                    ],
+                  );
+          },
+        ));
   }
 
   Widget messages(HelpController _) {
