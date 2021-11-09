@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         //home:RegisterAccount(),
-        home: HomePage(),
+        home: AuthDecider(),
       ),
       designSize: const Size(1920, 1080),
     );
