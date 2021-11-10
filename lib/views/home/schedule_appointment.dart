@@ -1,3 +1,5 @@
+import 'dart:html';
+import 'package:date_format/date_format.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rrt_client_web_app/constants/rtt_textstyle.dart';
 import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
 import 'package:rrt_client_web_app/controllers/appointment/booked_appointments/booked_appointment.dart';
+import 'package:rrt_client_web_app/models/appointment/available_appointments.dart';
 import 'package:rrt_client_web_app/models/appointment/booked_appointments/booked_appointment_model.dart';
 import 'package:rrt_client_web_app/models/appointment/slots.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
@@ -20,6 +23,11 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:convert';
+
+String month = formatDate(DateTime.now(), [mm]);
+String year = formatDate(DateTime.now(), [yy]);
+String day = formatDate(DateTime.now(), [dd]);
+DateTime? _selectedDay;
 
 class ScheduleAppointment extends StatefulWidget {
   @override
@@ -33,8 +41,103 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
     final appointmentController = Get.find<AppointmentController>();
 
     double width = MediaQuery.of(context).size.width;
+    CalendarFormat _calendarFormat = CalendarFormat.month;
+    RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
+    DateTime _focusedDay = DateTime.now();
+    TimeOfDay startingTimeRange = TimeOfDay(hour: 10, minute: 10);
+    TimeOfDay endingTimeRange = TimeOfDay.now();
+    //List<Meeting> meetings = <Meeting>[];
+    TimeOfDay selectedStartTime = TimeOfDay(hour: 13, minute: 10);
+    TimeOfDay selectendingTimeRange = TimeOfDay.now();
 
-    DateTime? selectedDay;
+    var formatted = formatDate(DateTime.now(), [mm]);
+    var formatted1;
+    List<String> _subjectCollection = <String>[];
+    List<Color> _colorCollection = <Color>[];
+    List months = [
+      'jan',
+      'feb',
+      'mar',
+      'apr',
+      'may',
+      'jun',
+      'jul',
+      'aug',
+      'sep',
+      'oct',
+      'nov',
+      'dec'
+    ];
+
+    void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+      if (!isSameDay(_selectedDay, selectedDay)) {
+        setState(() {
+          _selectedDay = selectedDay;
+          _focusedDay = focusedDay;
+
+          formatted = formatDate(selectedDay, [mm]);
+          print(formatted);
+          formatted1 = formatDate(selectedDay, [dd]);
+          print(formatted1);
+
+          var current_mon = selectedDay.month;
+          print(months[current_mon - 1]);
+          month = (months[current_mon - 1]);
+          day = formatted1;
+
+          print("Selected wwmonth $month");
+          print("selectedwwsr day $day");
+        });
+      }
+    }
+
+    void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
+      setState(() {
+        _selectedDay = null;
+        _focusedDay = focusedDay;
+
+        _rangeSelectionMode = RangeSelectionMode.toggledOn;
+      });
+    }
+//     Map<DateTime, List> _listEvents;
+// final currentDay = DateTime.now();
+// _listEvents = {
+//     currentDay.add( Duration(days: 12)): [‘Event 1’, ‘Event 2’],
+// };
+
+    //List<Appointment> _shiftCollection = <Appointment>[];
+    //List<CalendarResource> _employeeCollection = <CalendarResource>[];
+    //_DataSource? _events;
+
+    //DateTime? selectedDay;
+    // List<Event> _getEventsForDay(DateTime day) {
+    //   return;
+    // }
+
+    // void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    //   if (!isSameDay(selectedDay, selectedDay)) {
+    //     setState(() {
+    //       focusedDay = focusedDay;
+    //       selectedDay = selectedDay;
+    //       selectedEvents = _getEventsForDay(selectedDay);
+    //     });
+    //   }
+    // }
+    // CalendarFormat format = CalendarFormat.month;
+    // DateTime selectedDay = DateTime.now();
+    // DateTime focusedDay = DateTime.now();
+    //  @override
+    // void initState() {
+    //   _events = _DataSource(_shiftCollection, _employeeCollection);
+    //   _selectedDay = _focusedDay;
+    //   super.initState();
+    // }
+
+    @override
+    void dispose() {
+      super.dispose();
+    }
+
     return SafeArea(
         child: Container(
             height: MediaQuery.of(context).size.height,
@@ -345,10 +448,20 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                                                     //           ));
                                                     //     });
                                                     setState(() {
-                                                      appointmentController.chipList.value = appointmentController.availableAppointments[index].schedule!.slots!;
-                                                      appointmentController.selectedApp.value = appointmentController.availableAppointments[index];
+                                                      appointmentController
+                                                              .chipList.value =
+                                                          appointmentController
+                                                              .availableAppointments[
+                                                                  index]
+                                                              .schedule!
+                                                              .slots!;
+                                                      appointmentController
+                                                              .selectedApp
+                                                              .value =
+                                                          appointmentController
+                                                                  .availableAppointments[
+                                                              index];
                                                     });
-
                                                   },
                                                   child: Text(
                                                     "Check Slots",
@@ -437,24 +550,19 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                           child: Padding(
                             padding: EdgeInsets.all(8.0),
                             child: TableCalendar(
-                              selectedDayPredicate: (day) {
-                                return isSameDay(selectedDay, day);
+                              //onDayLongPressed: _DaySelected,
+                              onPageChanged: (focusedDay) {
+                                _focusedDay = focusedDay;
                               },
-                              onDaySelected: (selectedDay, focusedDay) {
-                                setState(() {
-                                  selectedDay = selectedDay;
-                                  focusedDay =
-                                      focusedDay; // update `_focusedDay` here as well
-                                });
-                              },
+                              selectedDayPredicate: (day) =>
+                                  isSameDay(_selectedDay, day),
+                              onRangeSelected: _onRangeSelected,
+                              onDaySelected: _onDaySelected,
                               calendarStyle: CalendarStyle(
-                                  selectedDecoration: BoxDecoration(
-                                    color: Colors.red,
-                                  ),
-                                  rangeHighlightColor: Colors.red,
-                                  markerDecoration: BoxDecoration(
-                                    color: Colors.red,
-                                  )),
+                                selectedDecoration: BoxDecoration(
+                                    color: Colors.red, shape: BoxShape.circle),
+                                rangeHighlightColor: Colors.red,
+                              ),
                               pageJumpingEnabled: true,
                               daysOfWeekHeight: 25.h,
                               rowHeight: 60.h,
@@ -479,8 +587,54 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                               availableGestures:
                                   AvailableGestures.horizontalSwipe,
                               headerVisible: true,
-                              focusedDay: DateTime.now(),
+                              focusedDay: _focusedDay,
                             ),
+                            // TableCalendar(onDayLongPressed:
+                            // ,
+                            //   selectedDayPredicate: (day) {
+                            //     return isSameDay(selectedDay, day);
+                            //   },
+                            //   onDaySelected: (selectedDay, focusedDay) {
+                            //     setState(() {
+                            //       selectedDay = selectedDay;
+                            //       focusedDay =
+                            //           focusedDay; // update `_focusedDay` here as well
+                            //     });
+                            //   },
+                            //   calendarStyle: CalendarStyle(
+                            //       selectedDecoration: BoxDecoration(
+                            //         color: Colors.red,
+                            //       ),
+                            //       rangeHighlightColor: Colors.red,
+                            //       markerDecoration: BoxDecoration(
+                            //         color: Colors.red,
+                            //       )),
+                            //   pageJumpingEnabled: true,
+                            //   daysOfWeekHeight: 25.h,
+                            //   rowHeight: 60.h,
+                            //   pageAnimationEnabled: true,
+                            //   daysOfWeekVisible: true,
+                            //   headerStyle: HeaderStyle(
+                            //       formatButtonVisible: false,
+                            //       titleCentered: true,
+                            //       titleTextStyle: TextStyle(
+                            //           color: Colors.black,
+                            //           fontWeight: FontWeight.w700),
+                            //       rightChevronIcon: CircleAvatar(
+                            //         backgroundColor: Colors.red,
+                            //         child: Icon(Icons.chevron_right),
+                            //       ),
+                            //       leftChevronIcon: CircleAvatar(
+                            //         backgroundColor: Colors.red,
+                            //         child: Icon(Icons.chevron_left),
+                            //       )),
+                            //   firstDay: DateTime.utc(2010, 10, 16),
+                            //   lastDay: DateTime.utc(2030, 3, 14),
+                            //   availableGestures:
+                            //       AvailableGestures.horizontalSwipe,
+                            //   headerVisible: true,
+                            //   focusedDay: DateTime.now(),
+                            // ),
                           ),
                         ),
                         //second row choice chip
@@ -522,8 +676,8 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                                   //spacing: 5.0.sp,
                                   //runSpacing: 15.0.sp,
                                   children: <Widget>[
-                                    choiceChipWidget(
-                                        appointmentController.chipList),
+                                    choiceChipWidget(appointmentController
+                                        .availableAppointments),
                                   ],
                                 )),
                               ],
@@ -591,13 +745,16 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                                                     textColor: Colors.white,
                                                     textStyle: WhiteText,
                                                     onPressed: () {
-                                                      final bookedAppointmentController = Get.find<BookedAppointmentController>();
+                                                      final bookedAppointmentController =
+                                                          Get.find<
+                                                              BookedAppointmentController>();
 
-
-
-                                                      if(bookedAppointmentController.myAppointments.isEmpty){
-                                                        appointmentController.createRequestInDatabase();
-                                                      }else{
+                                                      if (bookedAppointmentController
+                                                          .myAppointments
+                                                          .isEmpty) {
+                                                        appointmentController
+                                                            .createRequestInDatabase();
+                                                      } else {
                                                         // CHECKING IF THE SLOT IS ALREADY IN OUR LIST
 
                                                         // for (var element in bookedAppointmentController.myAppointments) {
@@ -614,12 +771,22 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                                                         //   }
                                                         // }
 
-                                                        for (var element in bookedAppointmentController.myAppointments) {
-                                                          if(element.docId == appointmentController.selectedApp.value.uid){
-                                                            appointmentController.updateRequestInDatabase(element.reqId!);
+                                                        for (var element
+                                                            in bookedAppointmentController
+                                                                .myAppointments) {
+                                                          if (element.docId ==
+                                                              appointmentController
+                                                                  .selectedApp
+                                                                  .value
+                                                                  .uid) {
+                                                            appointmentController
+                                                                .updateRequestInDatabase(
+                                                                    element
+                                                                        .reqId!);
                                                             break;
-                                                          }else{
-                                                            appointmentController.createRequestInDatabase();
+                                                          } else {
+                                                            appointmentController
+                                                                .createRequestInDatabase();
                                                             break;
                                                           }
                                                         }
@@ -653,7 +820,6 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                                                       //             .uid!);
                                                       //   }
                                                       // });
-
 
                                                       Navigator.pop(context);
                                                     },
@@ -690,7 +856,7 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
 }
 
 class choiceChipWidget extends StatefulWidget {
-  final List<Slots> reportList;
+  final List<AvailableAppointments> reportList;
 
   choiceChipWidget(this.reportList);
 
@@ -706,30 +872,34 @@ class _choiceChipWidgetState extends State<choiceChipWidget> {
     widget.reportList.forEach((item) {
       choices.add(Container(
         padding: EdgeInsets.symmetric(vertical: 20.h),
-        child: FilterChip(
-          showCheckmark: false,
-          //inside chip padding
-          labelPadding: EdgeInsets.symmetric(horizontal: 150.w, vertical: 15.h),
-          padding: EdgeInsets.symmetric(horizontal: 35.h),
-          label: SingleChildScrollView(
-              child: Text("${item.startSlot} to ${item.endSlot}")),
-          labelStyle: TextStyle(
-              color: Color(0xff3A3A3A),
-              fontSize: 20.0,
-              fontWeight: FontWeight.w600),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+        child: Center(
+          child: FilterChip(
+            showCheckmark: false,
+            //inside chip padding
+            labelPadding:
+                EdgeInsets.symmetric(horizontal: 150.w, vertical: 15.h),
+            padding: EdgeInsets.symmetric(horizontal: 35.h),
+            label: SingleChildScrollView(
+                child: Text(
+                    "${item.schedule!.slots![0].startSlot} to ${item.schedule!.slots![0].endSlot}")),
+            labelStyle: TextStyle(
+                color: Color(0xff3A3A3A),
+                fontSize: 20.0,
+                fontWeight: FontWeight.w600),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            backgroundColor: Color(0xffC4C4C4),
+            selectedColor: Colors.red,
+            selected: appointmentController.selectedChoice.value ==
+                item.schedule!.slots![0],
+            onSelected: (selected) {
+              setState(() {
+                 appointmentController.selectedChoice.value =
+                    item.schedule!.slots![0];
+              });
+            },
           ),
-          backgroundColor: Color(0xffC4C4C4),
-          selectedColor: Colors.red,
-          selected: appointmentController.selectedChoice.value == item,
-          onSelected: (selected) {
-            setState(() {
-              appointmentController.selectedChoice.value = item;
-
-              //selected == true;
-            });
-          },
         ),
       ));
     });
