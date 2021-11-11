@@ -63,7 +63,7 @@ class CommonTextField extends StatelessWidget {
         ),
 
         hintText: hintText,
-        fillColor: Colors.white,
+        fillColor: Colors.grey.withOpacity(0.1),
         filled: true,
         hintStyle: TextStyle(color: Color(0xffB2B2B2).withOpacity(0.7),fontSize: 9,fontWeight: FontWeight.w400,fontFamily: 'Roboto',letterSpacing: 0.0),
         contentPadding: EdgeInsets.symmetric(vertical: 11.0, horizontal: 18.0),

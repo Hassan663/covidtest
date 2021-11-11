@@ -6,6 +6,7 @@ import 'package:rrt_client_web_app/constants/rrt_sizes.dart';
 import 'package:rrt_client_web_app/constants/rtt_textstyle.dart';
 import 'package:rrt_client_web_app/controllers/help/help_controller.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
+import 'package:rrt_client_web_app/views/widgets/rrt_widgets/header.dart';
 import 'package:rrt_client_web_app/widget/commontextfield.dart';
 
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
@@ -17,254 +18,181 @@ class Help extends StatelessWidget {
     return SafeArea(child: buildContainerHelp(context));
   }
 
-  Container buildContainerHelp(BuildContext context) {
-    return Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        decoration: new BoxDecoration(
-            color: Color(0xffE5E5E5), //new Color.fromRGBO(255, 0, 0, 0.0),
-            borderRadius: new BorderRadius.only(
-                topLeft: Radius.circular(circular_radius_homeContainers),
-                bottomLeft: Radius.circular(circular_radius_homeContainers))),
-        child: GetBuilder<HelpController>(
-          init: HelpController(),
-          builder: (_) {
-            return _.isLoading
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Row(
-                    children: [
-                      Container(
-                        width: Get.width / 2.8,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+  Widget buildContainerHelp(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xffE5E5E5),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Header(),
+          ),
+          Container(
+              height: MediaQuery.of(context).size.height * 0.85,
+              width: MediaQuery.of(context).size.width,
+              decoration: new BoxDecoration(
+                  color:
+                      Color(0xffE5E5E5), //new Color.fromRGBO(255, 0, 0, 0.0),
+                  borderRadius: new BorderRadius.only(
+                      topLeft: Radius.circular(circular_radius_homeContainers),
+                      bottomLeft:
+                          Radius.circular(circular_radius_homeContainers))),
+              child: GetBuilder<HelpController>(
+                init: HelpController(),
+                builder: (_) {
+                  return _.isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Container(
+                        child: Row(
                           children: [
                             Container(
-                              width: Get.width,
-                              child: TextField(
-                                controller: _.controller,
-                                readOnly: true,
-                                decoration:
-                                    InputDecoration(hintText: 'Channel ID'),
-                                onChanged: (text) {
-                                  _.channelId = text;
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30.0,
-                            ),
-                            Container(
-                              width: Get.width,
-                              child: Row(
+                              color: fLabelTextColor,
+                              width: Get.width / 2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.center,
                                 children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        _.isJoined
-                                            ? _.leaveChannel()
-                                            : _.joinChannel();
-                                      },
-                                      child: Text(
-                                          '${_.isJoined ? 'Leave' : 'Join'} channel'),
+                                  Container(
+                                    width: Get.width,
+                                    child: Row(
+                                      children: [],
+                                    ),
+                                  ),
+                                  renderVideo(_),
+                                  Container(
+                                    height: 150,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 30, vertical: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            children: [
+                                              Container(
+                                                height: 40,
+                                                width: 40,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10))),
+                                                child: IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.videocam_sharp,
+                                                      color: Colors.white,
+                                                    )),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: 40,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10))),
+                                                child: IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.mic_none,
+                                                      color: Colors.white,
+                                                    )),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: 40,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10))),
+                                                child: IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.chat,
+                                                      color: Colors.white,
+                                                    )),
+                                              ),
+                                              Container(
+                                                height: 40,
+                                                width: 40,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10))),
+                                                child: IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.more_vert,
+                                                      color: Colors.white,
+                                                    )),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CircularButtons(
+                                              backgroundColor:
+                                                  const Color(0xfffc6359),
+                                              borderColor:
+                                                  const Color(0xfffc6359),
+                                              text:
+                                                  '${_.isJoined ? 'Leave' : 'Join'} Session',
+                                              height: 50,
+                                              width: 150,
+                                              onPressed: () {
+                                                _.isJoined
+                                                    ? _.leaveChannel()
+                                                    : _.joinChannel();
+                                              },
+                                              textColor: Colors.white,
+                                              textStyle: const TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight:
+                                                      FontWeight.w600),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   )
                                 ],
                               ),
                             ),
-                            renderVideo(_),
-                            SizedBox(
-                              height: 30.0,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  20.0))),
-                                                  backgroundColor: Colors.white,
-                                                  content: Container(
-                                                    height: 300,
-                                                    width: 500,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        Text(
-                                                          'Assesment',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  fLabelTextColor,
-                                                              fontSize: 25,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                        //SizedBox(height: 5.h),
-                                                        Text(
-                                                          "Please indicate the result of the test",
-                                                          style: GoogleFonts.inter(
-                                                              fontSize: 18,
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              color:
-                                                                  fButtonTextColor),
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceAround,
-                                                          children: [
-                                                            IconButton(
-                                                              onPressed: () {},
-                                                              icon: Icon(
-                                                                Icons
-                                                                    .add_circle,
-                                                                size: 50,
-                                                              ),
-                                                              color:
-                                                                  fButtonColor,
-                                                            ),
-                                                            IconButton(
-                                                              onPressed: () {},
-                                                              icon: Icon(
-                                                                Icons.help,
-                                                                size: 50,
-                                                              ),
-                                                              color: Color(
-                                                                  0xffFFA857),
-                                                            ),
-                                                            IconButton(
-                                                              onPressed: () {},
-                                                              icon: Icon(
-                                                                Icons
-                                                                    .remove_circle,
-                                                                size: 50,
-                                                              ),
-                                                              color: Color(
-                                                                  0xff0B7D2B),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      40),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              CircularButtons(
-                                                                backgroundColor:
-                                                                    const Color(
-                                                                        0xfffc6359),
-                                                                borderColor:
-                                                                    const Color(
-                                                                        0xfffc6359),
-                                                                text: "Confirm",
-                                                                height: 50,
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.1,
-                                                                textColor:
-                                                                    Colors
-                                                                        .white,
-                                                                textStyle:
-                                                                    WhiteText,
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                              ),
-                                                              CircularButtons(
-                                                                backgroundColor:
-                                                                    const Color(
-                                                                        0xfffc6359),
-                                                                borderColor:
-                                                                    const Color(
-                                                                        0xfffc6359),
-                                                                text: "Cancel",
-                                                                height: 50,
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.1,
-                                                                textColor:
-                                                                    Colors
-                                                                        .white,
-                                                                textStyle:
-                                                                    WhiteText,
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ));
-                                            });
-                                      },
-                                      child: Text('Assesment'),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: _.switchCameras,
-                                      child: Text(
-                                          'Camera ${_.switchCamera ? 'front' : 'rear'}'),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),),
+                              width: Get.width / 4,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: messages(_),
+                                  ),
+                                  sendmessage(_),
+                                ],
+                              ),
                             )
                           ],
                         ),
-                      ),
-                      Container(
-                        width: Get.width / 2.8,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: messages(_),
-                            ),
-                            sendmessage(_),
-                          ],
-                        ),
-                      )
-                    ],
-                  );
-          },
-        ));
+                      );
+                },
+              )),
+        ],
+      ),
+    );
   }
 
   Widget messages(HelpController _) {
@@ -352,7 +280,7 @@ class Help extends StatelessWidget {
           Expanded(
               child: CommonTextField(
             controller: _.message,
-            hintText: "Typing..........",
+            hintText: "TyPe Here",
             isTextHidden: false,
             borderColor: Color(0xffF9F9F9),
           )

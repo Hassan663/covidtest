@@ -13,7 +13,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rrt_client_web_app/constants/rtt_textstyle.dart';
 import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
 import 'package:rrt_client_web_app/controllers/appointment/booked_appointments/booked_appointment.dart';
-import 'package:rrt_client_web_app/models/appointment/available_appointments.dart';
 import 'package:rrt_client_web_app/models/appointment/booked_appointments/booked_appointment_model.dart';
 import 'package:rrt_client_web_app/models/appointment/slots.dart';
 import 'package:rrt_client_web_app/views/widgets/rrt_widgets/button.dart';
@@ -676,8 +675,8 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
                                   //spacing: 5.0.sp,
                                   //runSpacing: 15.0.sp,
                                   children: <Widget>[
-                                    choiceChipWidget(appointmentController
-                                        .availableAppointments),
+                                    choiceChipWidget(
+                                        appointmentController.chipList),
                                   ],
                                 )),
                               ],
@@ -856,7 +855,7 @@ class _ScheduleAppointmentState extends State<ScheduleAppointment>
 }
 
 class choiceChipWidget extends StatefulWidget {
-  final List<AvailableAppointments> reportList;
+  final List<Slots> reportList;
 
   choiceChipWidget(this.reportList);
 
@@ -872,34 +871,30 @@ class _choiceChipWidgetState extends State<choiceChipWidget> {
     widget.reportList.forEach((item) {
       choices.add(Container(
         padding: EdgeInsets.symmetric(vertical: 20.h),
-        child: Center(
-          child: FilterChip(
-            showCheckmark: false,
-            //inside chip padding
-            labelPadding:
-                EdgeInsets.symmetric(horizontal: 150.w, vertical: 15.h),
-            padding: EdgeInsets.symmetric(horizontal: 35.h),
-            label: SingleChildScrollView(
-                child: Text(
-                    "${item.schedule!.slots![0].startSlot} to ${item.schedule!.slots![0].endSlot}")),
-            labelStyle: TextStyle(
-                color: Color(0xff3A3A3A),
-                fontSize: 20.0,
-                fontWeight: FontWeight.w600),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            backgroundColor: Color(0xffC4C4C4),
-            selectedColor: Colors.red,
-            selected: appointmentController.selectedChoice.value ==
-                item.schedule!.slots![0],
-            onSelected: (selected) {
-              setState(() {
-                 appointmentController.selectedChoice.value =
-                    item.schedule!.slots![0];
-              });
-            },
+        child: FilterChip(
+          showCheckmark: false,
+          //inside chip padding
+          labelPadding: EdgeInsets.symmetric(horizontal: 150.w, vertical: 15.h),
+          padding: EdgeInsets.symmetric(horizontal: 35.h),
+          label: SingleChildScrollView(
+              child: Text("${item.startSlot} to ${item.endSlot}")),
+          labelStyle: TextStyle(
+              color: Color(0xff3A3A3A),
+              fontSize: 20.0,
+              fontWeight: FontWeight.w600),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
+          backgroundColor: Color(0xffC4C4C4),
+          selectedColor: Colors.red,
+          selected: appointmentController.selectedChoice.value == item,
+          onSelected: (selected) {
+            setState(() {
+              appointmentController.selectedChoice.value = item;
+
+              //selected == true;
+            });
+          },
         ),
       ));
     });
