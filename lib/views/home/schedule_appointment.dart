@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'package:date_format/date_format.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
@@ -571,47 +572,29 @@ class ScheduleAppointment extends StatelessWidget {
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.symmetric(vertical: 30),
-                                  child: Text(
-                                    "Select Time Slot",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 30.h,
-                                ),
+                                Text(
+                                  "Select Time Slot",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.w700),
+                                ).marginOnly(left: 30.0 , right: 30.0),
+                                SizedBox(height: 10.0,),
                                 ListView.separated(
                                   itemCount: _.appoinmentlist.length,
                                   shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
                                   separatorBuilder: (c,e){
                                     return SizedBox(
                                       height: 10.0,
                                     );
                                   },
                                   itemBuilder: (c , e){
-                                    return Container(
-                                      width: Get.width * 0.36,
-                                      decoration: BoxDecoration(
-                                        color: Colors.amber
-                                      ),
-                                      height: 50.0,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text("Start Time :${_.appoinmentlist[e]['startappointmentTime']}" , style: TextStyle(color: Colors.white),),
-                                          Spacer(),
-                                          Text("End Time :${_.appoinmentlist[e]['endappointmentTime']}" , style: TextStyle(color: Colors.white)),
-                                        ],
-                                      ).marginOnly(left: 10.0 , right: 10.0),
-                                    );
+                                    return slotlist(_.appoinmentlist[e]['slots'] , _);
                                   },
                                 ).marginOnly(left: 10.0 , right: 10.0)
                               ],
-                            ),
+                            ).marginOnly(top: 10.0 , bottom: 10.0),
                           ),
                         )
                       ],
@@ -630,152 +613,49 @@ class ScheduleAppointment extends StatelessWidget {
                           textStyle: WhiteText,
                           width: Get.width * 0.3,
                           onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20.0))),
-                                      backgroundColor: Colors.white,
-                                      content: Container(
-                                        height: 200,
-                                        width: 400,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'Do you want to book this time slot',
-                                                  style: TextStyle(
-                                                      color: fButtonColor,
-                                                      fontSize: 25,
-                                                      fontWeight:
-                                                      FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                CircularButtons(
-                                                  backgroundColor:
-                                                  const Color(0xff4F8484),
-                                                  borderColor:
-                                                  const Color(0xff4F8484),
-                                                  text: "Yes",
-                                                  height: 50,
-                                                  width: Get.width * 0.1,
-                                                  textColor: Colors.white,
-                                                  textStyle: WhiteText,
-                                                  onPressed: () {
-                                                    final bookedAppointmentController =
-                                                    Get.find<
-                                                        BookedAppointmentController>();
-
-                                                    if (bookedAppointmentController
-                                                        .myAppointments
-                                                        .isEmpty) {
-                                                      _.appointmentController
-                                                          .createRequestInDatabase();
-                                                    } else {
-                                                      // CHECKING IF THE SLOT IS ALREADY IN OUR LIST
-
-                                                      // for (var element in bookedAppointmentController.myAppointments) {
-                                                      //   if(element.schedule!.slots!.length == appointmentController.selectedApp.value.schedule!.slots!.length){
-                                                      //     for (var slot in element.schedule!.slots!){
-                                                      //       if(slot.startSlot == appointmentController.selectedChoice.value.startSlot && slot.endSlot == appointmentController.selectedChoice.value.endSlot){
-                                                      //         print("SLOT ALREADY EXISTS");
-                                                      //       }else{
-                                                      //
-                                                      //       }
-                                                      //     }
-                                                      //   }else{
-                                                      //     print("DOES NOT EXISTS");
-                                                      //   }
-                                                      // }
-
-                                                      for (var element
-                                                      in bookedAppointmentController
-                                                          .myAppointments) {
-                                                        if (element.docId ==
-                                                            _.appointmentController
-                                                                .selectedApp
-                                                                .value
-                                                                .uid) {
-                                                          _.appointmentController
-                                                              .updateRequestInDatabase(
-                                                              element
-                                                                  .reqId!);
-                                                          break;
-                                                        } else {
-                                                          _.appointmentController
-                                                              .createRequestInDatabase();
-                                                          break;
-                                                        }
-                                                      }
-                                                    }
-                                                    print(_.appointmentController
-                                                        .selectedApp.value.uid);
-                                                    // FirebaseFirestore.instance
-                                                    //     .collection(
-                                                    //     'available-appointments')
-                                                    //     .doc(
-                                                    //     appointmentController
-                                                    //         .selectedApp
-                                                    //         .value
-                                                    //         .uid)
-                                                    //     .get()
-                                                    //     .then((value) {
-                                                    //   if (value.exists) {
-                                                    //     appointmentController
-                                                    //         .createRequestInDatabase();
-                                                    //     print(value.exists);
-                                                    //   } else {
-                                                    //     print(value.exists);
-                                                    //     appointmentController
-                                                    //         .updateRequestInDatabase(
-                                                    //         appointmentController
-                                                    //             .selectedApp
-                                                    //             .value
-                                                    //             .uid!);
-                                                    //   }
-                                                    // });
-
-                                                    Navigator.pop(context);
-                                                  },
-                                                ),
-                                                CircularButtons(
-                                                  backgroundColor:
-                                                  const Color(0xfffc6359),
-                                                  borderColor:
-                                                  const Color(0xfffc6359),
-                                                  text: "No",
-                                                  height: 50,
-                                                  width: Get.width * 0.1,
-                                                  textColor: Colors.white,
-                                                  textStyle: WhiteText,
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ));
-                                });
+                            _.addAppoinment();
                           }),
                     ),
                   ],
                 ),
               ),
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget slotlist(List c ,ScheduleController _ ){
+    return ListView.separated(
+      itemCount: c.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      separatorBuilder: (d ,e){
+        return SizedBox(
+          height: 10.0,
+        );
+      },
+      itemBuilder: (x , index){
+        return GestureDetector(
+          onTap: (){
+            _.selecttime.text = index.toString();
+            _.selectdatetime.text = c[index]['timeslot'];
+            _.update();
+          },
+          child: Container(
+            width: Get.width * 0.36,
+            decoration: BoxDecoration(
+                color:_.selecttime.text == index.toString() ? Colors.blue : Colors.amber
+            ),
+            height: 50.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("${c[index]['timeslot']}" , style: TextStyle(color: Colors.white),),
+
+              ],
+            ).marginOnly(left: 10.0 , right: 10.0),
           ),
         );
       },

@@ -6,6 +6,8 @@ import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rrt_client_web_app/constants/custom_snackbar.dart';
+import 'package:rrt_client_web_app/constants/rrt_colors.dart';
 import 'package:rrt_client_web_app/controllers/appointment/appointment_controller.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -24,7 +26,12 @@ class ScheduleController extends GetxController
 
   bool isLoading = true;
 
+  TextEditingController selecttime = TextEditingController();
+  TextEditingController selectdatetime = TextEditingController();
+
   final nurseAppointment = FirebaseFirestore.instance.collection("NurseAppointment");
+  final patientAppointment = FirebaseFirestore.instance.collection("Appoinments");
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   DateTime focusedDays = DateTime.now();
@@ -78,6 +85,7 @@ class ScheduleController extends GetxController
     final DateTime today =DateTime.parse(d.toDate().toString());
     String da = today.toString().split(' at').first;
     String a = da.split(" ").first;
+    print("date a $a");
     var cdata =await nurseAppointment.where("adate" , isEqualTo: a).get();
     cdata.docs.forEach((element) {
       print(element.data());
@@ -85,6 +93,53 @@ class ScheduleController extends GetxController
     });
     update();
     print(appoinmentlist.length);
+  }
+
+  Future<void> addAppoinment() async{
+    isLoading = true;
+    update();
+    final Timestamp d = Timestamp. fromDate(selectedDays!);
+    final DateTime today =DateTime.parse(d.toDate().toString());
+    String da = today.toString().split(' at').first;
+    String a = da.split(" ").first;
+    print("date a $a");
+    var c = await patientAppointment.where("starttime" , isEqualTo: selectdatetime.text).where("patientId" ,isEqualTo: firebaseAuth.currentUser!.uid).get();
+    if(c.docs.length == 0)
+      {
+        var data = patientAppointment.doc();
+        var docSnap = await data.get();
+       data.set({
+         "docId": docSnap.reference.id,
+         "date" : a,
+          "starttime" : selectdatetime.text,
+          "patientId" : firebaseAuth.currentUser!.uid,
+         "status" : "pending"
+        }).then((value){
+          isLoading = false;
+          update();
+          CustomSnackBar.showSnackBar(
+              title: "Success",
+              message: 'appointment Added Successfully',
+              backgroundColor: snackBarSuccess);
+        });
+      }
+    else
+      {
+        String doci = "";
+        c.docs.forEach((element) {
+          doci = element['docId'];
+        });
+        patientAppointment.doc(doci).update({
+          "starttime" : selectdatetime.text,
+        }).then((value){
+          isLoading = false;
+          update();
+          CustomSnackBar.showSnackBar(
+              title: "Success",
+              message: 'appointment Added Successfully',
+              backgroundColor: snackBarSuccess);
+        });
+      }
   }
 
 
