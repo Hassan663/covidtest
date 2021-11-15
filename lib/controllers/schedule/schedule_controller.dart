@@ -1,6 +1,8 @@
 
 
 
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,6 +41,7 @@ class ScheduleController extends GetxController
   DateTime? selectedDays;
 
   List appoinmentlist = [];
+  List appoinmentlist1 = [];
 
   @override
   void onInit() {
@@ -80,18 +83,22 @@ class ScheduleController extends GetxController
   Future<void> getAppoinment() async{
     print(selectedDays);
     print("function Call");
-    appoinmentlist.clear();
     final Timestamp d = Timestamp. fromDate(selectedDays!);
     final DateTime today =DateTime.parse(d.toDate().toString());
     String da = today.toString().split(' at').first;
     String a = da.split(" ").first;
     print("date a $a");
+    // appoinmentlist1.clear();
+    appoinmentlist.clear();
+    update();
     var cdata =await nurseAppointment.where("adate" , isEqualTo: a).get();
     cdata.docs.forEach((element) {
       print(element.data());
       appoinmentlist.add(element.data());
     });
     update();
+    // appoinmentlist = LinkedHashSet<String>.from(appoinmentlist1).toList();
+    // update();
     print(appoinmentlist.length);
   }
 
@@ -113,6 +120,7 @@ class ScheduleController extends GetxController
          "date" : a,
           "starttime" : selectdatetime.text,
           "patientId" : firebaseAuth.currentUser!.uid,
+         "nurseId" : "",
          "status" : "pending"
         }).then((value){
           isLoading = false;

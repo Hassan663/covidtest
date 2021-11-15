@@ -9,9 +9,10 @@ class AuthModel {
   String? imageUrl;
   Timestamp? createdAt;
   String? role;
+  String? status;
 
   AuthModel(
-      {this.uid, this.firstName, this.lastName, this.email, this.imageUrl, this.createdAt, this.role});
+      {this.uid, this.firstName, this.lastName, this.email, this.imageUrl, this.createdAt, this.role , this.status});
 
   AuthModel.fromDocumentSnapshot(DocumentSnapshot doc) {
     uid = doc.id;
@@ -21,5 +22,6 @@ class AuthModel {
     imageUrl = doc['imageUrl'];
     createdAt = doc['createdAt'];
     role = doc['role'];
+    status = doc['status'];
   }
 }

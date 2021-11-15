@@ -27,172 +27,176 @@ class Help extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Header(),
           ),
-          Container(
-              height: MediaQuery.of(context).size.height * 0.85,
-              width: MediaQuery.of(context).size.width,
-              decoration: new BoxDecoration(
-                  color:
-                      Color(0xffE5E5E5), //new Color.fromRGBO(255, 0, 0, 0.0),
-                  borderRadius: new BorderRadius.only(
-                      topLeft: Radius.circular(circular_radius_homeContainers),
-                      bottomLeft:
-                          Radius.circular(circular_radius_homeContainers))),
-              child: GetBuilder<HelpController>(
-                init: HelpController(),
-                builder: (_) {
-                  return _.isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : Container(
-                        child: Row(
-                          children: [
-                            Container(
-                              color: fLabelTextColor,
-                              width: Get.width / 2,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: Get.width,
-                                    child: Row(
-                                      children: [],
-                                    ),
-                                  ),
-                                  renderVideo(_),
-                                  Container(
-                                    height: 150,
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 30, vertical: 20),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
-                                            children: [
-                                              Container(
-                                                height: 40,
-                                                width: 40,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.grey,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                10))),
-                                                child: IconButton(
-                                                    onPressed: () {},
-                                                    icon: Icon(
-                                                      Icons.videocam_sharp,
-                                                      color: Colors.white,
-                                                    )),
-                                              ),
-                                              Container(
-                                                height: 40,
-                                                width: 40,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.grey,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                10))),
-                                                child: IconButton(
-                                                    onPressed: () {},
-                                                    icon: Icon(
-                                                      Icons.mic_none,
-                                                      color: Colors.white,
-                                                    )),
-                                              ),
-                                              Container(
-                                                height: 40,
-                                                width: 40,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.grey,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                10))),
-                                                child: IconButton(
-                                                    onPressed: () {},
-                                                    icon: Icon(
-                                                      Icons.chat,
-                                                      color: Colors.white,
-                                                    )),
-                                              ),
-                                              Container(
-                                                height: 40,
-                                                width: 40,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.grey,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                10))),
-                                                child: IconButton(
-                                                    onPressed: () {},
-                                                    icon: Icon(
-                                                      Icons.more_vert,
-                                                      color: Colors.white,
-                                                    )),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            CircularButtons(
-                                              backgroundColor:
-                                                  const Color(0xfffc6359),
-                                              borderColor:
-                                                  const Color(0xfffc6359),
-                                              text:
-                                                  '${_.isJoined ? 'Leave' : 'Join'} Session',
-                                              height: 50,
-                                              width: 150,
-                                              onPressed: () {
-                                                _.isJoined
-                                                    ? _.leaveChannel()
-                                                    : _.joinChannel();
-                                              },
-                                              textColor: Colors.white,
-                                              textStyle: const TextStyle(
-                                                  fontSize: 17,
-                                                  fontWeight:
-                                                      FontWeight.w600),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),),
-                              width: Get.width / 4,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: messages(_),
-                                  ),
-                                  sendmessage(_),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                },
-              )),
+          buildVideoCall(context),
         ],
       ),
     );
+  }
+
+  Container buildVideoCall(BuildContext context) {
+    return Container(
+            height: MediaQuery.of(context).size.height * 0.85,
+            width: MediaQuery.of(context).size.width,
+            decoration: new BoxDecoration(
+                color:
+                    Color(0xffE5E5E5), //new Color.fromRGBO(255, 0, 0, 0.0),
+                borderRadius: new BorderRadius.only(
+                    topLeft: Radius.circular(circular_radius_homeContainers),
+                    bottomLeft:
+                        Radius.circular(circular_radius_homeContainers))),
+            child: GetBuilder<HelpController>(
+              init: HelpController(),
+              builder: (_) {
+                return _.isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Container(
+                      child: Row(
+                        children: [
+                          Container(
+                            color: fLabelTextColor,
+                            width: Get.width / 2,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: Get.width,
+                                  child: Row(
+                                    children: [],
+                                  ),
+                                ),
+                                renderVideo(_),
+                                Container(
+                                  height: 150,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 30, vertical: 20),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                          children: [
+                                            Container(
+                                              height: 40,
+                                              width: 40,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              10))),
+                                              child: IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.videocam_sharp,
+                                                    color: Colors.white,
+                                                  )),
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: 40,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              10))),
+                                              child: IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.mic_none,
+                                                    color: Colors.white,
+                                                  )),
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: 40,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              10))),
+                                              child: IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.chat,
+                                                    color: Colors.white,
+                                                  )),
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: 40,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              10))),
+                                              child: IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.more_vert,
+                                                    color: Colors.white,
+                                                  )),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CircularButtons(
+                                            backgroundColor:
+                                                const Color(0xfffc6359),
+                                            borderColor:
+                                                const Color(0xfffc6359),
+                                            text:
+                                                '${_.isJoined ? 'Leave' : 'Join'} Session',
+                                            height: 50,
+                                            width: 150,
+                                            onPressed: () {
+                                              _.isJoined
+                                                  ? _.leaveChannel()
+                                                  : _.joinChannel();
+                                            },
+                                            textColor: Colors.white,
+                                            textStyle: const TextStyle(
+                                                fontSize: 17,
+                                                fontWeight:
+                                                    FontWeight.w600),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10)),),
+                            width: Get.width / 4,
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: messages(_),
+                                ),
+                                sendmessage(_),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+              },
+            ));
   }
 
   Widget messages(HelpController _) {
@@ -333,4 +337,8 @@ class Help extends StatelessWidget {
       ),
     );
   }
+
+
+
+
 }

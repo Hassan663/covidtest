@@ -53,6 +53,7 @@ class AuthController extends GetxController {
             lastName: lastName,
             email: email.trim(),
             imageUrl: '',
+            status: "online",
             createdAt: Timestamp.now(), role: "Client");
 
         Database().createUserInDatabase(_user).then((value) => debugPrint(value.toString()));
